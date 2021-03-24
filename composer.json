@@ -16,6 +16,7 @@
     "require": {
         "php": ">=7.0",
         "ext-bcmath": "*",
+        "aimeos/map": "^2.2",
         "brick/money": "^0.5.1"
     },
     "require-dev": {
