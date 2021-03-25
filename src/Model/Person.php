@@ -9,8 +9,8 @@ use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 
 class Person
 {
-    public const TYPE_NATURAL = 'natural';
-    public const TYPE_LEGAL = 'legal';
+    const TYPE_NATURAL = 'natural';
+    const TYPE_LEGAL = 'legal';
 
     /** @var int */
     private $id;
@@ -39,7 +39,7 @@ class Person
      *
      * @throws UnsupportedPersonTypeException
      */
-    private function checkType(string $type): void
+    private function checkType(string $type)
     {
         if (!in_array($type, AppConfig::getInstance()->get('persons.types'), true)) {
             throw new UnsupportedPersonTypeException($type);

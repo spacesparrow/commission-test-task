@@ -19,7 +19,7 @@ class PersonTest extends TestCase
      * @param string $type
      * @param Person $person
      */
-    public function testConstructSuccess(int $id, string $type, Person $person): void
+    public function testConstructSuccess(int $id, string $type, Person $person)
     {
         static::assertEquals($person, new Person($id, $type));
     }
@@ -27,7 +27,7 @@ class PersonTest extends TestCase
     /**
      * @covers \App\CommissionTask\Model\Person::__construct
      */
-    public function testConstructThrowsException(): void
+    public function testConstructThrowsException()
     {
         $unsupportedType = 'new';
 

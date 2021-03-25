@@ -18,7 +18,7 @@ class CurrencyTest extends TestCase
      * @param string $currency
      * @param Currency $expected
      */
-    public function testConstructSuccess(string $currency, Currency $expected): void
+    public function testConstructSuccess(string $currency, Currency $expected)
     {
         static::assertEquals($expected, new Currency($currency));
     }
@@ -26,7 +26,7 @@ class CurrencyTest extends TestCase
     /**
      * @covers \App\CommissionTask\Service\Currency::__construct
      */
-    public function testConstructThrowsException(): void
+    public function testConstructThrowsException()
     {
         $unsupportedCurrency = 'new';
 

@@ -19,7 +19,7 @@ class AppConfig
         $this->init();
     }
 
-    private function init(): void
+    private function init()
     {
         $this->config = Map::from(require __DIR__ . '/../config/app.php');
 
