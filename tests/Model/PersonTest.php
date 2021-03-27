@@ -43,7 +43,7 @@ class PersonTest extends TestCase
         $i = 0;
 
         return array_map(static function (string $type) use ($i) {
-            return [++$i, $type, new Person($i, $type), $type];
+            return [++$i, $type, new Person($i, $type)];
         }, $personTypes);
     }
 }
