@@ -35,4 +35,14 @@ return [
             Operation::TYPE_CASH_OUT,
         ],
     ],
+    'commissions' => [
+        'cash_in' => [
+            'default_percent' => 0.03,
+            'max_amount' => 5
+        ],
+        'cash_out' => [
+            'default_percent' => 0.3,
+            'min_legal_person_amount' => 0.50
+        ]
+    ]
 ];

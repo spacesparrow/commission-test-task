@@ -5,26 +5,75 @@ declare(strict_types=1);
 namespace App\CommissionTask\Model;
 
 use App\CommissionTask\AppConfig;
+use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedOperationTypeException;
+use App\CommissionTask\Exception\UnsupportedPersonTypeException;
+use App\CommissionTask\Service\Currency;
+use Brick\Math\BigDecimal;
 use DateTime;
+use Exception;
 
-class Operation
+abstract class Operation
 {
     const TYPE_CASH_IN = 'cash_in';
     const TYPE_CASH_OUT = 'cash_out';
 
     /** @var string */
-    private $type;
+    protected $type;
 
     /** @var DateTime */
-    private $date;
+    protected $date;
 
-    public function __construct(string $type, string $date = 'now')
-    {
+    /** @var Person */
+    protected $user;
+
+    /** @var BigDecimal */
+    protected $amount;
+
+    /** @var Currency */
+    protected $currency;
+
+    /** @var AppConfig */
+    protected $config;
+
+    /**
+     * Operation constructor.
+     *
+     * @param int $userId
+     * @param string $userType
+     * @param string $amount
+     * @param string $currencyCode
+     * @param string $type
+     * @param string $date
+     *
+     * @throws Exception
+     * @throws UnsupportedOperationTypeException
+     * @throws UnsupportedPersonTypeException
+     * @throws UnsupportedCurrencyException
+     */
+    public function __construct(
+        int $userId,
+        string $userType,
+        string $amount,
+        string $currencyCode,
+        string $type,
+        string $date = 'now'
+    ) {
         $this->checkType($type);
 
         $this->type = $type;
         $this->date = new DateTime($date);
+        $this->user = new Person($userId, $userType);
+        $this->currency = new Currency($currencyCode);
+        $this->amount = BigDecimal::of($amount);
+        $this->config = AppConfig::getInstance();
+    }
+
+    public function getCommission(): BigDecimal
+    {
+        $commission = $this->amount->multipliedBy($this->config->get("commissions.{$this->type}.default_percent"));
+
+        return $this->validateCommission($commission);
     }
 
     private function checkType(string $type)
@@ -33,4 +82,6 @@ class Operation
             throw new UnsupportedOperationTypeException($type);
         }
     }
+
+    abstract protected function validateCommission(BigDecimal $actualCommission): BigDecimal;
 }

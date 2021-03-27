@@ -63,6 +63,18 @@ class Currency
         return $converter->convert(Money::of($amount, $from), $to, RoundingMode::UP)->getAmount();
     }
 
+    public function getCurrencyCode(): string
+    {
+        return $this->code;
+    }
+
+    public function setCurrencyCode(string $code)
+    {
+        $this->checkCurrencySupported($code);
+
+        $this->code = $code;
+    }
+
     private function checkCurrencySupported(string $code)
     {
         if (!in_array($code, AppConfig::getInstance()->get('currencies.supported'), true)) {

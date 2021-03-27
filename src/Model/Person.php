@@ -34,6 +34,28 @@ class Person
         $this->type = $type;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type)
+    {
+        $this->checkType($type);
+
+        $this->type = $type;
+    }
+
     /**
      * @param string $type
      *
