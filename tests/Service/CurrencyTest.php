@@ -14,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 class CurrencyTest extends TestCase
 {
     /**
-     * @covers \App\CommissionTask\Service\Currency::__construct
+     * @covers       \App\CommissionTask\Service\Currency::__construct
      * @dataProvider dataProviderForConstructorSuccessTesting
      *
      * @param string $currency
@@ -39,7 +39,7 @@ class CurrencyTest extends TestCase
     }
 
     /**
-     * @covers \App\CommissionTask\Service\Currency::convert
+     * @covers       \App\CommissionTask\Service\Currency::convert
      * @dataProvider dataProviderForConvertTesting
      *
      * @param float $amount

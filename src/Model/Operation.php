@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\CommissionTask\Model;
 
 use App\CommissionTask\AppConfig;
+use App\CommissionTask\Exception\UnexpectedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
+use Brick\Math\RoundingMode;
 use DateTime;
 use Exception;
 
@@ -50,6 +52,7 @@ abstract class Operation
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
      * @throws UnsupportedCurrencyException
+     * @throws UnexpectedOperationTypeException
      */
     public function __construct(
         int $userId,
@@ -84,4 +87,44 @@ abstract class Operation
     }
 
     abstract protected function validateCommission(BigDecimal $actualCommission): BigDecimal;
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getDate(): DateTime
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return Person
+     */
+    public function getUser(): Person
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return BigDecimal
+     */
+    public function getAmount(): BigDecimal
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @return Currency
+     */
+    public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
 }

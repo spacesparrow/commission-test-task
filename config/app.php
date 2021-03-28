@@ -37,11 +37,11 @@ return [
     ],
     'commissions' => [
         'cash_in' => [
-            'default_percent' => 0.03,
+            'default_percent' => 0.0003,
             'max_amount' => 5
         ],
         'cash_out' => [
-            'default_percent' => 0.3,
+            'default_percent' => 0.003,
             'min_legal_person_amount' => 0.50
         ]
     ]

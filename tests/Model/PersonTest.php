@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 class PersonTest extends TestCase
 {
     /**
-     * @covers \App\CommissionTask\Model\Person::__construct
+     * @covers       \App\CommissionTask\Model\Person::__construct
      * @dataProvider dataProviderForConstructSuccessTesting
      *
      * @param int $id
