@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CommissionTask\Tests\Model;
 
+use App\CommissionTask\AppConfig;
 use App\CommissionTask\Exception\UnexpectedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
@@ -85,6 +86,24 @@ class CashOutOperationTest extends TestCase
             $currency,
             $operationType,
             $date
+        );
+    }
+
+    /**
+     * @covers       \App\CommissionTask\Model\CashOutOperation::validateCommission
+     * @dataProvider dataProviderForValidateCommissionLegalPersonTesting
+     *
+     * @param CashOutOperation $operation
+     * @param BigDecimal $expectedCommission
+     */
+    public function testValidateCommissionLegalPerson(CashOutOperation $operation, BigDecimal $expectedCommission)
+    {
+        static::assertTrue(
+            $operation
+                ->validateCommission($expectedCommission)
+                ->isEqualTo(
+                    $operation->getCommission()
+                )
         );
     }
 
@@ -179,6 +198,114 @@ class CashOutOperationTest extends TestCase
                     Operation::TYPE_CASH_OUT
                 )
             ]
+        ];
+    }
+
+    public function dataProviderForValidateCommissionLegalPersonTesting(): array
+    {
+        $config = AppConfig::getInstance();
+        $percent = $config->get('commissions.cash_out.default_percent');
+
+        return [
+            'less than default in EUR' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(50.00)->multipliedBy($percent)
+            ],
+            'equal to default in EUR' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)167.00,
+                    Currency::EUR,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(167.00)->multipliedBy($percent)
+            ],
+            'more than default in EUR' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)200.00,
+                    Currency::EUR,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(200.00)->multipliedBy($percent)
+            ],
+            'less than default in USD' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50.00,
+                    Currency::USD,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(50.00)->multipliedBy($percent)
+            ],
+            'equal to default in USD' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)192.00,
+                    Currency::USD,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(192.00)->multipliedBy($percent)
+            ],
+            'more than default in USD' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)500.00,
+                    Currency::USD,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(500.00)->multipliedBy($percent)
+            ],
+            'less than default in JPY' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)15000.00,
+                    Currency::JPY,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(15000.00)->multipliedBy($percent)
+            ],
+            'equal to default in JPY' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)21600.00,
+                    Currency::JPY,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(21600.00)->multipliedBy($percent)
+            ],
+            'more than default in JPY' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50000.00,
+                    Currency::JPY,
+                    Operation::TYPE_CASH_OUT,
+                    '2014-12-31'
+                ),
+                BigDecimal::of(50000.00)->multipliedBy($percent)
+            ],
         ];
     }
 }

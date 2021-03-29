@@ -29,11 +29,11 @@ class CashOutOperation extends Operation
     {
         if ($this->user->getType() === Person::TYPE_LEGAL) {
             $allowedCommissionBase =
-                $this->config->get("commissions.{$this->type}.{$this->user->getType()}.min_legal_person_amount");
+                $this->config->get("commissions.{$this->type}.min_legal_person_amount");
             $limitedCommissionConverted = Currency::convert(
                 $allowedCommissionBase,
                 Currency::EUR,
-                $this->currency
+                $this->currency->getCurrencyCode()
             );
 
             return $actualCommission->isGreaterThanOrEqualTo($limitedCommissionConverted)
