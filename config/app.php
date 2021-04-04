@@ -11,6 +11,7 @@ Map::delimiter('.');
 
 return [
     'scale' => 5,
+    'rounding_scale' => 2,
     'currencies' => [
         'main' => Currency::EUR,
         'supported' => [
