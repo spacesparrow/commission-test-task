@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace App\CommissionTask\Model;
 
 use App\CommissionTask\AppConfig;
-use App\CommissionTask\Exception\UnexpectedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
-use Brick\Math\RoundingMode;
 use DateTime;
 use Exception;
 
@@ -45,22 +43,21 @@ abstract class Operation
      * @param string $userType
      * @param string $amount
      * @param string $currencyCode
-     * @param string $type
      * @param string $date
+     * @param string $type
      *
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
      * @throws UnsupportedCurrencyException
-     * @throws UnexpectedOperationTypeException
      */
     public function __construct(
         int $userId,
         string $userType,
         string $amount,
         string $currencyCode,
-        string $type,
-        string $date = 'now'
+        string $date,
+        string $type
     ) {
         $this->checkType($type);
 

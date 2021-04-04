@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\CommissionTask\Model;
 
-use App\CommissionTask\Exception\UnexpectedOperationTypeException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
 
@@ -15,14 +14,9 @@ class CashInOperation extends Operation
         string $userType,
         string $amount,
         string $currencyCode,
-        string $type,
         string $date = 'now'
     ) {
-        if ($type !== Operation::TYPE_CASH_IN) {
-            throw new UnexpectedOperationTypeException($type, Operation::TYPE_CASH_IN);
-        }
-
-        parent::__construct($userId, $userType, $amount, $currencyCode, $type, $date);
+        parent::__construct($userId, $userType, $amount, $currencyCode, $date, Operation::TYPE_CASH_IN);
     }
 
     public function validateCommission(BigDecimal $actualCommission): BigDecimal

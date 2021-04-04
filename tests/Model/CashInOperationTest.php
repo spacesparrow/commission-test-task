@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\CommissionTask\Tests\Model;
 
 use App\CommissionTask\AppConfig;
-use App\CommissionTask\Exception\UnexpectedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Model\CashInOperation;
@@ -25,7 +24,6 @@ class CashInOperationTest extends TestCase
      * @param string $date
      * @param int $userId
      * @param string $userType
-     * @param string $operationType
      * @param string $amount
      * @param string $currency
      */
@@ -33,7 +31,6 @@ class CashInOperationTest extends TestCase
         string $date,
         int $userId,
         string $userType,
-        string $operationType,
         string $amount,
         string $currency
     ) {
@@ -42,11 +39,10 @@ class CashInOperationTest extends TestCase
             $userType,
             $amount,
             $currency,
-            $operationType,
             $date
         );
 
-        static::assertSame($operationType, $cashInOperation->getType());
+        static::assertSame(Operation::TYPE_CASH_IN, $cashInOperation->getType());
         static::assertEquals(new DateTime($date), $cashInOperation->getDate());
         static::assertEquals(new Person($userId, $userType), $cashInOperation->getUser());
         static::assertEquals(BigDecimal::of($amount), $cashInOperation->getAmount());
@@ -60,7 +56,6 @@ class CashInOperationTest extends TestCase
      * @param string $date
      * @param int $userId
      * @param string $userType
-     * @param string $operationType
      * @param string $amount
      * @param string $currency
      * @param string $exception
@@ -70,7 +65,6 @@ class CashInOperationTest extends TestCase
         string $date,
         int $userId,
         string $userType,
-        string $operationType,
         string $amount,
         string $currency,
         string $exception,
@@ -84,7 +78,6 @@ class CashInOperationTest extends TestCase
             $userType,
             $amount,
             $currency,
-            $operationType,
             $date
         );
     }
@@ -114,7 +107,6 @@ class CashInOperationTest extends TestCase
                 '2014-12-31',
                 1,
                 Person::TYPE_NATURAL,
-                Operation::TYPE_CASH_IN,
                 (string)1200.00,
                 Currency::EUR
             ],
@@ -122,7 +114,6 @@ class CashInOperationTest extends TestCase
                 '2015-05-03',
                 4,
                 Person::TYPE_NATURAL,
-                Operation::TYPE_CASH_IN,
                 (string)125.00,
                 Currency::USD
             ],
@@ -130,7 +121,6 @@ class CashInOperationTest extends TestCase
                 '2015-01-06',
                 2,
                 Person::TYPE_NATURAL,
-                Operation::TYPE_CASH_IN,
                 (string)5.67,
                 Currency::JPY
             ],
@@ -138,7 +128,6 @@ class CashInOperationTest extends TestCase
                 '2016-07-28',
                 3,
                 Person::TYPE_LEGAL,
-                Operation::TYPE_CASH_IN,
                 (string)100.50,
                 Currency::EUR
             ],
@@ -146,7 +135,6 @@ class CashInOperationTest extends TestCase
                 '2016-11-25',
                 1,
                 Person::TYPE_LEGAL,
-                Operation::TYPE_CASH_IN,
                 (string)554.35,
                 Currency::USD
             ],
@@ -154,7 +142,6 @@ class CashInOperationTest extends TestCase
                 '2017-02-28',
                 1,
                 Person::TYPE_LEGAL,
-                Operation::TYPE_CASH_IN,
                 (string)34.05,
                 Currency::JPY
             ],
@@ -168,7 +155,6 @@ class CashInOperationTest extends TestCase
                 '2014-12-31',
                 1,
                 'person',
-                Operation::TYPE_CASH_IN,
                 (string)1200.00,
                 Currency::EUR,
                 UnsupportedPersonTypeException::class,
@@ -178,25 +164,10 @@ class CashInOperationTest extends TestCase
                 '2014-12-31',
                 1,
                 Person::TYPE_LEGAL,
-                Operation::TYPE_CASH_IN,
                 (string)1200.00,
                 'UAH',
                 UnsupportedCurrencyException::class,
                 sprintf('Unsupported currency was provided %s', 'UAH')
-            ],
-            'UnexpectedOperationTypeException' => [
-                '2014-12-31',
-                1,
-                Person::TYPE_NATURAL,
-                'cash',
-                (string)1200.00,
-                Currency::EUR,
-                UnexpectedOperationTypeException::class,
-                sprintf(
-                    'Unexpected operation type was provided, passed - %s, allowed - %s',
-                    'cash',
-                    Operation::TYPE_CASH_IN
-                )
             ]
         ];
     }
@@ -213,7 +184,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)200.00,
                     Currency::EUR,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(200.00)->multipliedBy($percent)
@@ -224,7 +194,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)16666.67,
                     Currency::EUR,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(16666.67)->multipliedBy($percent)
@@ -235,7 +204,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)25000,
                     Currency::EUR,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(25000)->multipliedBy($percent)
@@ -246,7 +214,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)200.00,
                     Currency::USD,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(200.00)->multipliedBy($percent)
@@ -257,7 +224,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)16666.67,
                     Currency::USD,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(16666.67)->multipliedBy($percent)
@@ -268,7 +234,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)25000,
                     Currency::USD,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(25000)->multipliedBy($percent)
@@ -279,7 +244,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)200.00,
                     Currency::JPY,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(200.00)->multipliedBy($percent)
@@ -290,7 +254,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)16666.67,
                     Currency::JPY,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(16666.67)->multipliedBy($percent)
@@ -301,7 +264,6 @@ class CashInOperationTest extends TestCase
                     Person::TYPE_NATURAL,
                     (string)25000,
                     Currency::JPY,
-                    Operation::TYPE_CASH_IN,
                     '2014-12-31'
                 ),
                 BigDecimal::of(25000)->multipliedBy($percent)

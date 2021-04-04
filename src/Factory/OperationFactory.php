@@ -43,7 +43,6 @@ class OperationFactory
                     $userType,
                     $amount,
                     $currencyCode,
-                    Operation::TYPE_CASH_IN,
                     $date
                 );
             case Operation::TYPE_CASH_OUT:
@@ -52,7 +51,6 @@ class OperationFactory
                     $userType,
                     $amount,
                     $currencyCode,
-                    Operation::TYPE_CASH_OUT,
                     $date
                 );
             default:

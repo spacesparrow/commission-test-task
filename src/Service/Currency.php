@@ -57,7 +57,7 @@ class Currency
             $provider->setExchangeRate($mainCurrencyCode, $currencyCode, $rate);
         }
 
-        $provider = new BaseCurrencyProvider($provider, 'EUR');
+        $provider = new BaseCurrencyProvider($provider, $mainCurrencyCode);
         $converter = new CurrencyConverter($provider, new CustomContext($scale));
 
         return $converter->convert(Money::of($amount, $from), $to, RoundingMode::UP)->getAmount();
