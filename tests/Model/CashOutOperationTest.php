@@ -209,7 +209,7 @@ class CashOutOperationTest extends TestCase
         $percent = $config->get('commissions.cash_out.default_percent');
 
         return [
-            'less than default in EUR' => [
+            'less than default in EUR for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -221,7 +221,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(50.00)->multipliedBy($percent)
             ],
-            'equal to default in EUR' => [
+            'equal to default in EUR for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -233,7 +233,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(167.00)->multipliedBy($percent)
             ],
-            'more than default in EUR' => [
+            'more than default in EUR for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -245,7 +245,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(200.00)->multipliedBy($percent)
             ],
-            'less than default in USD' => [
+            'less than default in USD for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -257,7 +257,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(50.00)->multipliedBy($percent)
             ],
-            'equal to default in USD' => [
+            'equal to default in USD for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -269,7 +269,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(192.00)->multipliedBy($percent)
             ],
-            'more than default in USD' => [
+            'more than default in USD for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -281,7 +281,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(500.00)->multipliedBy($percent)
             ],
-            'less than default in JPY' => [
+            'less than default in JPY for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -293,7 +293,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(15000.00)->multipliedBy($percent)
             ],
-            'equal to default in JPY' => [
+            'equal to default in JPY for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -305,7 +305,7 @@ class CashOutOperationTest extends TestCase
                 ),
                 BigDecimal::of(21600.00)->multipliedBy($percent)
             ],
-            'more than default in JPY' => [
+            'more than default in JPY for legal' => [
                 new CashOutOperation(
                     1,
                     Person::TYPE_LEGAL,
@@ -316,6 +316,30 @@ class CashOutOperationTest extends TestCase
                     '2014-12-31'
                 ),
                 BigDecimal::of(50000.00)->multipliedBy($percent)
+            ],
+            'for natural when operations number per week exceeded' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    4,
+                    Money::zero( Currency::EUR),
+                    '2014-12-31'
+                ),
+                BigDecimal::of(50.00)->multipliedBy($percent)
+            ],
+            'for natural when operations amount per week exceeded' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    0,
+                    Money::of(1000, Currency::EUR),
+                    '2014-12-31'
+                ),
+                BigDecimal::of(50.00)->multipliedBy($percent)
             ],
         ];
     }

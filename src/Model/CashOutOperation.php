@@ -78,7 +78,11 @@ class CashOutOperation extends Operation
             }
 
             if ($willBeUsedThisWeek->isGreaterThan($maxAllowedAmountInEur)) {
-                return $willBeUsedThisWeek->minus($maxAllowedAmountInEur, RoundingMode::UP)->getAmount();
+                $amountForCommission = $willBeUsedThisWeek
+                    ->minus($maxAllowedAmountInEur, RoundingMode::UP)
+                    ->getAmount();
+
+                return Currency::convert($amountForCommission, Currency::EUR, $this->currency->getCurrencyCode());
             }
 
             return BigDecimal::zero();
