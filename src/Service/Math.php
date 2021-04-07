@@ -17,8 +17,10 @@ class Math
         $this->scale = $scale;
     }
 
-    public function round(BigDecimal $amount): float
+    public function round(BigDecimal $amount, string $currency): float
     {
-        return $amount->toScale($this->scale, RoundingMode::UP)->toFloat();
+        $scale = $currency === Currency::JPY ? 0 : $this->scale;
+
+        return $amount->toScale($scale, RoundingMode::UP)->toFloat();
     }
 }
