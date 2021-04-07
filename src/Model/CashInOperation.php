@@ -33,7 +33,7 @@ class CashInOperation extends Operation
 
     protected function validateCommission(BigDecimal $actualCommission): BigDecimal
     {
-        $allowedCommissionBase = $this->config->get('commissions.cash_in.max_amount');
+        $allowedCommissionBase = $this->config->get("commissions.{$this->type}.max_amount");
         $limitedCommissionConverted = Currency::convert(
             $allowedCommissionBase,
             Currency::EUR,

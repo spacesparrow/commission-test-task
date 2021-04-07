@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\CommissionTask\Model;
 
+use App\CommissionTask\Exception\UnsupportedOperationTypeException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
@@ -51,6 +52,8 @@ class CashOutOperation extends Operation
                 ? $actualCommission
                 : $limitedCommissionConverted;
         }
+
+        throw new UnsupportedOperationTypeException($this->type);
     }
 
     protected function getAmountForCommission(): BigDecimal
@@ -80,5 +83,7 @@ class CashOutOperation extends Operation
 
             return BigDecimal::zero();
         }
+
+        throw new UnsupportedOperationTypeException($this->type);
     }
 }
