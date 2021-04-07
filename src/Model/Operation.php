@@ -10,6 +10,7 @@ use App\CommissionTask\Exception\UnsupportedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
+use Brick\Money\Money;
 use DateTime;
 use Exception;
 
@@ -36,6 +37,12 @@ abstract class Operation
     /** @var AppConfig */
     protected $config;
 
+    /** @var int */
+    protected $sequenceNumber;
+
+    /** @var Money */
+    protected $alreadyUsedThisWeek;
+
     /**
      * Operation constructor.
      *
@@ -45,6 +52,8 @@ abstract class Operation
      * @param string $currencyCode
      * @param string $date
      * @param string $type
+     * @param int $sequenceNumber
+     * @param Money $alreadyUsedThisWeek
      *
      * @throws Exception
      * @throws UnsupportedOperationTypeException
@@ -57,7 +66,9 @@ abstract class Operation
         string $amount,
         string $currencyCode,
         string $date,
-        string $type
+        string $type,
+        int $sequenceNumber,
+        Money $alreadyUsedThisWeek
     ) {
         $this->checkType($type);
 
@@ -67,11 +78,15 @@ abstract class Operation
         $this->currency = new Currency($currencyCode);
         $this->amount = BigDecimal::of($amount);
         $this->config = AppConfig::getInstance();
+        $this->sequenceNumber = $sequenceNumber;
+        $this->alreadyUsedThisWeek = $alreadyUsedThisWeek;
     }
 
     public function getCommission(): BigDecimal
     {
-        $commission = $this->amount->multipliedBy($this->config->get("commissions.{$this->type}.default_percent"));
+        $amountForCommission = $this->getAmountForCommission();
+        $commissionPercent = $this->config->get("commissions.{$this->type}.default_percent");
+        $commission = $amountForCommission->multipliedBy($commissionPercent);
 
         return $this->validateCommission($commission);
     }
@@ -84,6 +99,8 @@ abstract class Operation
     }
 
     abstract protected function validateCommission(BigDecimal $actualCommission): BigDecimal;
+
+    abstract protected function getAmountForCommission(): BigDecimal;
 
     /**
      * @return string
@@ -123,5 +140,21 @@ abstract class Operation
     public function getCurrency(): Currency
     {
         return $this->currency;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSequenceNumber(): int
+    {
+        return $this->sequenceNumber;
+    }
+
+    /**
+     * @return Money
+     */
+    public function getAlreadyUsedThisWeek(): Money
+    {
+        return $this->alreadyUsedThisWeek;
     }
 }

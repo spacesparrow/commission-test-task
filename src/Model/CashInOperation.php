@@ -6,6 +6,7 @@ namespace App\CommissionTask\Model;
 
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
+use Brick\Money\Money;
 
 class CashInOperation extends Operation
 {
@@ -14,12 +15,23 @@ class CashInOperation extends Operation
         string $userType,
         string $amount,
         string $currencyCode,
+        int $sequenceNumber,
+        Money $alreadyUserThisWeek,
         string $date = 'now'
     ) {
-        parent::__construct($userId, $userType, $amount, $currencyCode, $date, Operation::TYPE_CASH_IN);
+        parent::__construct(
+            $userId,
+            $userType,
+            $amount,
+            $currencyCode,
+            $date,
+            Operation::TYPE_CASH_IN,
+            $sequenceNumber,
+            $alreadyUserThisWeek
+        );
     }
 
-    public function validateCommission(BigDecimal $actualCommission): BigDecimal
+    protected function validateCommission(BigDecimal $actualCommission): BigDecimal
     {
         $allowedCommissionBase = $this->config->get('commissions.cash_in.max_amount');
         $limitedCommissionConverted = Currency::convert(
@@ -31,5 +43,10 @@ class CashInOperation extends Operation
         return $actualCommission->isLessThanOrEqualTo($limitedCommissionConverted)
             ? $actualCommission
             : $limitedCommissionConverted;
+    }
+
+    protected function getAmountForCommission(): BigDecimal
+    {
+        return $this->amount;
     }
 }

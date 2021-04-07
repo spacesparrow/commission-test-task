@@ -12,6 +12,7 @@ use App\CommissionTask\Model\Operation;
 use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
+use Brick\Money\Money;
 use DateTime;
 use PHPUnit\Framework\TestCase;
 
@@ -27,6 +28,8 @@ class OperationFactoryTest extends TestCase
      * @param string $operationType
      * @param string $amount
      * @param string $currency
+     * @param int $sequenceNumber
+     * @param Money $alreadyUsedThisWeek
      */
     public function testCreateSuccess(
         string $date,
@@ -34,7 +37,9 @@ class OperationFactoryTest extends TestCase
         string $userType,
         string $operationType,
         string $amount,
-        string $currency
+        string $currency,
+        int $sequenceNumber,
+        Money $alreadyUsedThisWeek
     ){
         $operation = OperationFactory::create(
             $userId,
@@ -42,6 +47,8 @@ class OperationFactoryTest extends TestCase
             $amount,
             $currency,
             $operationType,
+            $sequenceNumber,
+            $alreadyUsedThisWeek,
             $date
         );
 
@@ -50,6 +57,8 @@ class OperationFactoryTest extends TestCase
         static::assertEquals(new Person($userId, $userType), $operation->getUser());
         static::assertEquals(BigDecimal::of($amount), $operation->getAmount());
         static::assertEquals(new Currency($currency), $operation->getCurrency());
+        static::assertSame($sequenceNumber, $operation->getSequenceNumber());
+        static::assertEquals($alreadyUsedThisWeek, $operation->getAlreadyUsedThisWeek());
     }
 
     /**
@@ -62,6 +71,8 @@ class OperationFactoryTest extends TestCase
      * @param string $operationType
      * @param string $amount
      * @param string $currency
+     * @param int $sequenceNumber
+     * @param Money $alreadyUsedThisWeek
      * @param string $exception
      * @param string $exceptionMessage
      */
@@ -72,6 +83,8 @@ class OperationFactoryTest extends TestCase
         string $operationType,
         string $amount,
         string $currency,
+        int $sequenceNumber,
+        Money $alreadyUsedThisWeek,
         string $exception,
         string $exceptionMessage
     ){
@@ -84,6 +97,8 @@ class OperationFactoryTest extends TestCase
             $amount,
             $currency,
             $operationType,
+            $sequenceNumber,
+            $alreadyUsedThisWeek,
             $date
         );
     }
@@ -97,7 +112,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_IN,
                 (string)1200.00,
-                Currency::EUR
+                Currency::EUR,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_in natural person USD' => [
                 '2015-05-03',
@@ -105,7 +122,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_IN,
                 (string)125.00,
-                Currency::USD
+                Currency::USD,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_in natural person JPY' => [
                 '2015-01-06',
@@ -113,7 +132,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_IN,
                 (string)5.67,
-                Currency::JPY
+                Currency::JPY,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_in legal person EUR' => [
                 '2016-07-28',
@@ -121,7 +142,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_IN,
                 (string)100.50,
-                Currency::EUR
+                Currency::EUR,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_in legal person USD' => [
                 '2016-11-25',
@@ -129,7 +152,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_IN,
                 (string)554.35,
-                Currency::USD
+                Currency::USD,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_in legal person JPY' => [
                 '2017-02-28',
@@ -137,7 +162,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_IN,
                 (string)34.05,
-                Currency::JPY
+                Currency::JPY,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out natural person EUR' => [
                 '2014-12-31',
@@ -145,7 +172,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_OUT,
                 (string)1200.00,
-                Currency::EUR
+                Currency::EUR,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out natural person USD' => [
                 '2015-05-03',
@@ -153,7 +182,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_OUT,
                 (string)125.00,
-                Currency::USD
+                Currency::USD,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out natural person JPY' => [
                 '2015-01-06',
@@ -161,7 +192,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_NATURAL,
                 Operation::TYPE_CASH_OUT,
                 (string)5.67,
-                Currency::JPY
+                Currency::JPY,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out legal person EUR' => [
                 '2016-07-28',
@@ -169,7 +202,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_OUT,
                 (string)100.50,
-                Currency::EUR
+                Currency::EUR,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out legal person USD' => [
                 '2016-11-25',
@@ -177,7 +212,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_OUT,
                 (string)554.35,
-                Currency::USD
+                Currency::USD,
+                0,
+                Money::zero(Currency::EUR)
             ],
             'cash_out legal person JPY' => [
                 '2017-02-28',
@@ -185,7 +222,9 @@ class OperationFactoryTest extends TestCase
                 Person::TYPE_LEGAL,
                 Operation::TYPE_CASH_OUT,
                 (string)34.05,
-                Currency::JPY
+                Currency::JPY,
+                0,
+                Money::zero(Currency::EUR)
             ],
         ];
     }
@@ -200,6 +239,8 @@ class OperationFactoryTest extends TestCase
                 Operation::TYPE_CASH_IN,
                 (string)1200.00,
                 Currency::EUR,
+                0,
+                Money::zero(Currency::EUR),
                 UnsupportedPersonTypeException::class,
                 sprintf('Unsupported person type was provided %s', 'person')
             ],
@@ -210,6 +251,8 @@ class OperationFactoryTest extends TestCase
                 Operation::TYPE_CASH_IN,
                 (string)1200.00,
                 'UAH',
+                0,
+                Money::zero(Currency::EUR),
                 UnsupportedCurrencyException::class,
                 sprintf('Unsupported currency was provided %s', 'UAH')
             ],
@@ -220,6 +263,8 @@ class OperationFactoryTest extends TestCase
                 'cash',
                 (string)1200.00,
                 Currency::EUR,
+                0,
+                Money::zero(Currency::EUR),
                 UnsupportedOperationTypeException::class,
                 sprintf(
                     'Unsupported operation type was provided %s',

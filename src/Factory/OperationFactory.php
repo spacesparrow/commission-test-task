@@ -10,6 +10,7 @@ use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Model\CashInOperation;
 use App\CommissionTask\Model\CashOutOperation;
 use App\CommissionTask\Model\Operation;
+use Brick\Money\Money;
 use Exception;
 
 class OperationFactory
@@ -21,6 +22,8 @@ class OperationFactory
      * @param string $currencyCode
      * @param string $type
      * @param string $date
+     * @param int $sequenceNumber
+     * @param Money $usedThisWeek
      * @return Operation
      *
      * @throws Exception
@@ -34,6 +37,8 @@ class OperationFactory
         string $amount,
         string $currencyCode,
         string $type,
+        int $sequenceNumber,
+        Money $usedThisWeek,
         string $date = 'now'
     ): Operation {
         switch ($type) {
@@ -43,6 +48,8 @@ class OperationFactory
                     $userType,
                     $amount,
                     $currencyCode,
+                    $sequenceNumber,
+                    $usedThisWeek,
                     $date
                 );
             case Operation::TYPE_CASH_OUT:
@@ -51,6 +58,8 @@ class OperationFactory
                     $userType,
                     $amount,
                     $currencyCode,
+                    $sequenceNumber,
+                    $usedThisWeek,
                     $date
                 );
             default:

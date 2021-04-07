@@ -36,6 +36,8 @@ class OperationsHistoryTest extends TestCase
             Person::TYPE_NATURAL,
             (string)1200.00,
             Currency::EUR,
+            0,
+            Money::zero(Currency::EUR),
             '2014-12-31'
         );
 
@@ -53,6 +55,8 @@ class OperationsHistoryTest extends TestCase
             Person::TYPE_NATURAL,
             (string)50.00,
             Currency::USD,
+            0,
+            Money::zero(Currency::EUR),
             '2014-12-31'
         );
         $history->push($operation);
@@ -67,6 +71,8 @@ class OperationsHistoryTest extends TestCase
             Person::TYPE_NATURAL,
             (string)50.00,
             Currency::USD,
+            0,
+            Money::zero(Currency::EUR),
             '2016-12-31'
         );
         $history->push($operation);
@@ -133,6 +139,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::of(50, Currency::EUR),
@@ -146,6 +154,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::zero(Currency::EUR),
@@ -160,6 +170,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -167,6 +179,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::of(100, Currency::EUR),
@@ -180,6 +194,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -187,6 +203,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::of(50, Currency::EUR),
@@ -201,6 +219,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -208,6 +228,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2015-01-15'
                     )),
                 Money::of(50, Currency::EUR),
@@ -221,6 +243,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::USD,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -228,6 +252,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)100,
                         Currency::USD,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::of(
@@ -246,6 +272,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -253,6 +281,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)100,
                         Currency::USD,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 Money::of(50, Currency::EUR)
@@ -284,6 +314,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 1,
@@ -297,6 +329,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 0,
@@ -311,6 +345,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -318,6 +354,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 2,
@@ -331,6 +369,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -338,6 +378,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 1,
@@ -352,6 +394,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -359,6 +403,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::EUR,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2015-01-15'
                     )),
                 1,
@@ -372,6 +418,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_NATURAL,
                         (string)50,
                         Currency::USD,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
@@ -379,6 +427,8 @@ class OperationsHistoryTest extends TestCase
                         Person::TYPE_LEGAL,
                         (string)100,
                         Currency::USD,
+                        0,
+                        Money::zero(Currency::EUR),
                         '2014-12-31'
                     )),
                 1,

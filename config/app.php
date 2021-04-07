@@ -43,7 +43,10 @@ return [
         ],
         'cash_out' => [
             'default_percent' => 0.003,
-            'min_legal_person_amount' => 0.50
+            'min_legal_person_amount' => 0.50,
+            'max_natural_person_count' => 3,
+            'max_natural_person_amount' => 1000,
+            'max_natural_person_amount_currency' => Currency::EUR
         ]
     ]
 ];
