@@ -22,7 +22,6 @@ class AppConfig
     private function init()
     {
         $this->config = Map::from(require __DIR__ . '/../config/app.php');
-
     }
 
     public static function getInstance(): AppConfig

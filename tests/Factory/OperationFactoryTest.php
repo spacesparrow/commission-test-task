@@ -40,7 +40,7 @@ class OperationFactoryTest extends TestCase
         string $currency,
         int $sequenceNumber,
         Money $alreadyUsedThisWeek
-    ){
+    ) {
         $operation = OperationFactory::create(
             $userId,
             $userType,
@@ -87,7 +87,7 @@ class OperationFactoryTest extends TestCase
         Money $alreadyUsedThisWeek,
         string $exception,
         string $exceptionMessage
-    ){
+    ) {
         $this->expectException($exception);
         $this->expectExceptionMessage($exceptionMessage);
 
