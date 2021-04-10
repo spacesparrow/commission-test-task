@@ -10,6 +10,7 @@ use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Model\CashInOperation;
 use App\CommissionTask\Model\CashOutOperation;
 use App\CommissionTask\Model\Operation;
+use App\CommissionTask\Model\Person;
 use Brick\Money\Money;
 use Exception;
 
@@ -20,8 +21,7 @@ use Exception;
 class OperationFactory
 {
     /**
-     * @param int $personId
-     * @param string $personType
+     * @param Person $person
      * @param string $amount
      * @param string $currencyCode
      * @param string $type
@@ -35,8 +35,7 @@ class OperationFactory
      * @throws UnsupportedCurrencyException
      */
     public static function create(
-        int $personId,
-        string $personType,
+        Person $person,
         string $amount,
         string $currencyCode,
         string $type,
@@ -47,8 +46,7 @@ class OperationFactory
         switch ($type) {
             case Operation::TYPE_CASH_IN:
                 return new CashInOperation(
-                    $personId,
-                    $personType,
+                    $person,
                     $amount,
                     $currencyCode,
                     $sequenceNumber,
@@ -57,8 +55,7 @@ class OperationFactory
                 );
             case Operation::TYPE_CASH_OUT:
                 return new CashOutOperation(
-                    $personId,
-                    $personType,
+                    $person,
                     $amount,
                     $currencyCode,
                     $sequenceNumber,

@@ -47,8 +47,7 @@ class CashOutOperationTest extends TestCase
         Money $alreadyUsedThisWeek
     ) {
         $cashOutOperation = new CashOutOperation(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $sequenceNumber,
@@ -95,8 +94,7 @@ class CashOutOperationTest extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         new CashOutOperation(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $sequenceNumber,
@@ -280,8 +278,7 @@ class CashOutOperationTest extends TestCase
         return [
             'less than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::EUR,
                     0,
@@ -292,8 +289,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)167.00,
                     Currency::EUR,
                     0,
@@ -304,8 +300,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -316,8 +311,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::USD,
                     0,
@@ -328,8 +322,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)192.00,
                     Currency::USD,
                     0,
@@ -340,8 +333,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)500.00,
                     Currency::USD,
                     0,
@@ -352,8 +344,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)15000.00,
                     Currency::JPY,
                     0,
@@ -364,8 +355,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)21600.00,
                     Currency::JPY,
                     0,
@@ -376,8 +366,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50000.00,
                     Currency::JPY,
                     0,
@@ -388,8 +377,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations number per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     4,
@@ -400,8 +388,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations amount per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     0,
@@ -423,8 +410,7 @@ class CashOutOperationTest extends TestCase
         return [
             'operation below count limit' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::JPY,
                     1,
@@ -435,8 +421,7 @@ class CashOutOperationTest extends TestCase
             ],
             'operation exceeded count limit' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::USD,
                     4,
@@ -447,8 +432,7 @@ class CashOutOperationTest extends TestCase
             ],
             'operation exceeded amount limit' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::EUR,
                     1,
@@ -474,8 +458,7 @@ class CashOutOperationTest extends TestCase
         return [
             'less than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::EUR,
                     0,
@@ -486,8 +469,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)167.00,
                     Currency::EUR,
                     0,
@@ -498,8 +480,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -510,8 +491,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::USD,
                     0,
@@ -526,8 +506,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)192.00,
                     Currency::USD,
                     0,
@@ -538,8 +517,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)500.00,
                     Currency::USD,
                     0,
@@ -550,8 +528,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)15000.00,
                     Currency::JPY,
                     0,
@@ -566,8 +543,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)21600.00,
                     Currency::JPY,
                     0,
@@ -578,8 +554,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50000.00,
                     Currency::JPY,
                     0,
@@ -590,8 +565,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations number per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     4,
@@ -602,8 +576,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations amount per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     0,
@@ -631,8 +604,7 @@ class CashOutOperationTest extends TestCase
         return [
             'less than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::EUR,
                     0,
@@ -646,8 +618,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)167.00,
                     Currency::EUR,
                     0,
@@ -661,8 +632,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in EUR for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -676,8 +646,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50.00,
                     Currency::USD,
                     0,
@@ -695,8 +664,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)192.00,
                     Currency::USD,
                     0,
@@ -710,8 +678,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in USD for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)500.00,
                     Currency::USD,
                     0,
@@ -725,8 +692,7 @@ class CashOutOperationTest extends TestCase
             ],
             'less than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)15000.00,
                     Currency::JPY,
                     0,
@@ -744,8 +710,7 @@ class CashOutOperationTest extends TestCase
             ],
             'equal to default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)21600.00,
                     Currency::JPY,
                     0,
@@ -759,8 +724,7 @@ class CashOutOperationTest extends TestCase
             ],
             'more than default in JPY for legal' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_LEGAL,
+                    new Person(1, Person::TYPE_LEGAL),
                     (string)50000.00,
                     Currency::JPY,
                     0,
@@ -774,8 +738,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations number per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     4,
@@ -789,8 +752,7 @@ class CashOutOperationTest extends TestCase
             ],
             'for natural when operations amount per week exceeded' => [
                 new CashOutOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)50.00,
                     Currency::EUR,
                     0,

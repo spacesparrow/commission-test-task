@@ -37,8 +37,7 @@ class OperationsHistoryTest extends TestCase
     {
         $history = new OperationsHistory();
         $operation = new CashOutOperation(
-            1,
-            Person::TYPE_NATURAL,
+            new Person(1, Person::TYPE_NATURAL),
             (string)1200.00,
             Currency::EUR,
             0,
@@ -56,8 +55,7 @@ class OperationsHistoryTest extends TestCase
         static::assertCount(1, $history->getOperations()[$key]);
 
         $operation = new CashInOperation(
-            1,
-            Person::TYPE_NATURAL,
+            new Person(1, Person::TYPE_NATURAL),
             (string)50.00,
             Currency::USD,
             0,
@@ -72,8 +70,7 @@ class OperationsHistoryTest extends TestCase
         static::assertCount(2, $history->getOperations()[$key]);
 
         $operation = new CashInOperation(
-            1,
-            Person::TYPE_NATURAL,
+            new Person(1, Person::TYPE_NATURAL),
             (string)50.00,
             Currency::USD,
             0,
@@ -150,8 +147,7 @@ class OperationsHistoryTest extends TestCase
             'one operation in EUR' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -165,8 +161,7 @@ class OperationsHistoryTest extends TestCase
             'one operation in EUR filtered by type' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -181,8 +176,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in EUR' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -190,8 +184,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -205,8 +198,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in EUR and one filtered by type' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -214,8 +206,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -230,8 +221,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in EUR and one filtered by week' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -239,8 +229,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -254,8 +243,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in USD' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::USD,
                         0,
@@ -263,8 +251,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)100,
                         Currency::USD,
                         0,
@@ -283,8 +270,7 @@ class OperationsHistoryTest extends TestCase
             'one operation in EUR and one in USD' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -292,8 +278,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)100,
                         Currency::USD,
                         0,
@@ -329,8 +314,7 @@ class OperationsHistoryTest extends TestCase
             'one operation in week' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -344,8 +328,7 @@ class OperationsHistoryTest extends TestCase
             'one operation in week filtered by type' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -360,8 +343,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in week' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -369,8 +351,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -384,8 +365,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in week and one filtered by type' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -393,8 +373,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -409,8 +388,7 @@ class OperationsHistoryTest extends TestCase
             'two operations and one filtered by week' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -418,8 +396,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::EUR,
                         0,
@@ -433,8 +410,7 @@ class OperationsHistoryTest extends TestCase
             'two operations in week for different persons' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
-                        1,
-                        Person::TYPE_NATURAL,
+                        new Person(1, Person::TYPE_NATURAL),
                         (string)50,
                         Currency::USD,
                         0,
@@ -442,8 +418,7 @@ class OperationsHistoryTest extends TestCase
                         '2014-12-31'
                     ))
                     ->push(new CashOutOperation(
-                        2,
-                        Person::TYPE_LEGAL,
+                        new Person(2, Person::TYPE_LEGAL),
                         (string)100,
                         Currency::USD,
                         0,

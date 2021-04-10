@@ -50,8 +50,7 @@ abstract class Operation
     /**
      * Operation constructor.
      *
-     * @param int $personId
-     * @param string $personType
+     * @param Person $person
      * @param string $amount
      * @param string $currencyCode
      * @param string $date
@@ -64,8 +63,7 @@ abstract class Operation
      * @throws UnsupportedCurrencyException
      */
     public function __construct(
-        int $personId,
-        string $personType,
+        Person $person,
         string $amount,
         string $currencyCode,
         string $date,
@@ -77,7 +75,7 @@ abstract class Operation
 
         $this->type = $type;
         $this->date = new DateTime($date);
-        $this->person = new Person($personId, $personType);
+        $this->person = $person;
         $this->currency = new Currency($currencyCode);
         $this->amount = BigDecimal::of($amount);
         $this->config = AppConfig::getInstance();
@@ -95,7 +93,7 @@ abstract class Operation
     public function getCommission(): BigDecimal
     {
         $amountForCommission = $this->getAmountForCommission();
-        $commissionPercent = $this->config->get("commissions.{$this->type}.default_percent");
+        $commissionPercent = $this->config->get("commissions.$this->type.default_percent");
         $commission = $amountForCommission->multipliedBy($commissionPercent);
 
         return $this->validateCommission($commission);

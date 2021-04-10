@@ -47,8 +47,7 @@ class CashInOperationTest extends TestCase
         Money $alreadyUsedThisWeek
     ) {
         $cashInOperation = new CashInOperation(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $sequenceNumber,
@@ -95,8 +94,7 @@ class CashInOperationTest extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         new CashInOperation(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $sequenceNumber,
@@ -275,8 +273,7 @@ class CashInOperationTest extends TestCase
         return [
             'less that default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -287,8 +284,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)16666.67,
                     Currency::EUR,
                     0,
@@ -299,8 +295,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::EUR,
                     0,
@@ -311,8 +306,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::USD,
                     0,
@@ -323,8 +317,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)19161.67,
                     Currency::USD,
                     0,
@@ -335,8 +328,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::USD,
                     0,
@@ -347,8 +339,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::JPY,
                     0,
@@ -359,8 +350,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)2158833.7651,
                     Currency::JPY,
                     0,
@@ -371,8 +361,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)3238250,
                     Currency::JPY,
                     0,
@@ -393,8 +382,7 @@ class CashInOperationTest extends TestCase
         return [
             'operation in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -405,8 +393,7 @@ class CashInOperationTest extends TestCase
             ],
             'operation in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)16666.67,
                     Currency::USD,
                     0,
@@ -417,8 +404,7 @@ class CashInOperationTest extends TestCase
             ],
             'operation in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::JPY,
                     0,
@@ -447,8 +433,7 @@ class CashInOperationTest extends TestCase
         return [
             'less that default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -459,8 +444,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)16666.67,
                     Currency::EUR,
                     0,
@@ -471,8 +455,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::EUR,
                     0,
@@ -483,8 +466,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::USD,
                     0,
@@ -495,8 +477,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)19161.67,
                     Currency::USD,
                     0,
@@ -507,8 +488,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::USD,
                     0,
@@ -519,8 +499,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::JPY,
                     0,
@@ -531,8 +510,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)2158833.7651,
                     Currency::JPY,
                     0,
@@ -543,8 +521,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)3238250,
                     Currency::JPY,
                     0,
@@ -575,8 +552,7 @@ class CashInOperationTest extends TestCase
         return [
             'less that default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::EUR,
                     0,
@@ -590,8 +566,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)16666.67,
                     Currency::EUR,
                     0,
@@ -605,8 +580,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in EUR' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::EUR,
                     0,
@@ -620,8 +594,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::USD,
                     0,
@@ -635,8 +608,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)19161.67,
                     Currency::USD,
                     0,
@@ -650,8 +622,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in USD' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)25000,
                     Currency::USD,
                     0,
@@ -665,8 +636,7 @@ class CashInOperationTest extends TestCase
             ],
             'less that default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)200.00,
                     Currency::JPY,
                     0,
@@ -680,8 +650,7 @@ class CashInOperationTest extends TestCase
             ],
             'equal to default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)2158833.7651,
                     Currency::JPY,
                     0,
@@ -695,8 +664,7 @@ class CashInOperationTest extends TestCase
             ],
             'more than default in JPY' => [
                 new CashInOperation(
-                    1,
-                    Person::TYPE_NATURAL,
+                    new Person(1, Person::TYPE_NATURAL),
                     (string)3238250,
                     Currency::JPY,
                     0,

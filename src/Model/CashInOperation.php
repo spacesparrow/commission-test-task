@@ -23,8 +23,7 @@ class CashInOperation extends Operation
     /**
      * CashInOperation constructor.
      *
-     * @param int $personId
-     * @param string $personType
+     * @param Person $person
      * @param string $amount
      * @param string $currencyCode
      * @param int $sequenceNumber
@@ -36,8 +35,7 @@ class CashInOperation extends Operation
      * @throws UnsupportedCurrencyException
      */
     public function __construct(
-        int $personId,
-        string $personType,
+        Person $person,
         string $amount,
         string $currencyCode,
         int $sequenceNumber,
@@ -45,8 +43,7 @@ class CashInOperation extends Operation
         string $date = 'now'
     ) {
         parent::__construct(
-            $personId,
-            $personType,
+            $person,
             $amount,
             $currencyCode,
             $date,

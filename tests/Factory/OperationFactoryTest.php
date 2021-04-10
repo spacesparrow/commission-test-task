@@ -44,8 +44,7 @@ class OperationFactoryTest extends TestCase
         Money $alreadyUsedThisWeek
     ) {
         $operation = OperationFactory::create(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $operationType,
@@ -95,8 +94,7 @@ class OperationFactoryTest extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         OperationFactory::create(
-            $personId,
-            $personType,
+            new Person($personId, $personType),
             $amount,
             $currency,
             $operationType,
