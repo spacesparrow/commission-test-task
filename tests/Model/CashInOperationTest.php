@@ -142,10 +142,6 @@ class CashInOperationTest extends TestCase
      */
     public function testGetCommission(CashInOperation $operation, BigDecimal $expectedCommission)
     {
-        if (!$expectedCommission->isEqualTo($operation->getCommission())) {
-            var_dump($expectedCommission->toFloat(), $operation->getCommission()->toFloat(), $operation->getCurrency()->getCurrencyCode());
-        }
-
         static::assertTrue(
             $expectedCommission->isEqualTo($operation->getCommission())
         );

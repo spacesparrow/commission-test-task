@@ -10,7 +10,7 @@ use App\CommissionTask\Service\Currency;
 Map::delimiter('.');
 
 return [
-    'scale' => 5,
+    'scale' => 10,
     'rounding_scale' => 2,
     'currencies' => [
         'main' => Currency::EUR,
