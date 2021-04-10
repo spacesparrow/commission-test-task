@@ -42,7 +42,7 @@ class OperationsHistory
      */
     public function push(Operation $operation): OperationsHistory
     {
-        $week = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
+        $week = $this->getWeekIdentifier($operation->getDate(), $operation->getPerson()->getId());
         $this->operations[$week][] = $operation;
 
         return $this;
@@ -64,7 +64,7 @@ class OperationsHistory
     {
         $this->checkOperationType($operationType);
 
-        $week = $date->format('Y-W') . "#{$person->getId()}";
+        $week = $this->getWeekIdentifier($date, $person->getId());
         $amountInEur = Money::zero(Currency::EUR);
 
         if (empty($this->operations[$week])) {
@@ -104,7 +104,7 @@ class OperationsHistory
     {
         $this->checkOperationType($operationType);
 
-        $week = $date->format('Y-W') . "#{$person->getId()}";
+        $week = $this->getWeekIdentifier($date, $person->getId());
 
         if (empty($this->operations[$week])) {
             return 0;
@@ -145,5 +145,20 @@ class OperationsHistory
             && !in_array($operationType, [Operation::TYPE_CASH_IN, Operation::TYPE_CASH_OUT], true)) {
             throw new UnsupportedOperationTypeException($operationType);
         }
+    }
+
+    /**
+     * @param DateTime $date
+     * @param int $personId
+     * @return string
+     */
+    private function getWeekIdentifier(DateTime $date, int $personId): string
+    {
+        $dayOfWeek = $date->format('w');
+        $date->modify('- ' . (($dayOfWeek - 1 + 7) % 7) . 'days');
+        $sunday = clone $date;
+        $sunday->modify('+ 6 days');
+
+        return "{$date->format('Y-m-d')}-{$sunday->format('Y-m-d')}#$personId";
     }
 }

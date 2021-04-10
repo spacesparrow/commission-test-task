@@ -113,18 +113,22 @@ class CashOutOperation extends Operation
             return $this->amount;
         }
 
-        $amountInEur = Currency::convert($this->amount, $this->currency->getCurrencyCode(), Currency::EUR);
-        $maxAllowedAmount = BigDecimal::of(
-            $this->config->get("commissions.$this->type.max_natural_person_amount")
-        );
-        $maxAllowedAmountCurrency = $this->config->get(
-            "commissions.$this->type.max_natural_person_amount_currency"
-        );
-        $maxAllowedAmountInEur = Currency::convert($maxAllowedAmount, $maxAllowedAmountCurrency, Currency::EUR);
-        $willBeUsedThisWeek = $this->alreadyUsedThisWeek->plus($amountInEur, RoundingMode::UP);
-
         if ($this->person->getType() === Person::TYPE_NATURAL) {
+            $amountInEur = Currency::convert($this->amount, $this->currency->getCurrencyCode(), Currency::EUR);
+            $maxAllowedAmount = BigDecimal::of(
+                $this->config->get("commissions.$this->type.max_natural_person_amount")
+            );
+            $maxAllowedAmountCurrency = $this->config->get(
+                "commissions.$this->type.max_natural_person_amount_currency"
+            );
+            $maxAllowedAmountInEur = Currency::convert($maxAllowedAmount, $maxAllowedAmountCurrency, Currency::EUR);
+            $willBeUsedThisWeek = $this->alreadyUsedThisWeek->plus($amountInEur, RoundingMode::UP);
+
             if ($this->sequenceNumber > $this->config->get("commissions.$this->type.max_natural_person_count")) {
+                return $this->amount;
+            }
+
+            if ($this->alreadyUsedThisWeek->isGreaterThanOrEqualTo($maxAllowedAmount)) {
                 return $this->amount;
             }
 

@@ -48,7 +48,7 @@ class OperationsHistoryTest extends TestCase
         static::assertAttributeEmpty('operations', $history);
         $history->push($operation);
         static::assertAttributeNotEmpty('operations', $history);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
+        $key = $this->getWeekIdentifier($operation->getDate(), $operation->getPerson()->getId());
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(1, $history->getOperations());
@@ -63,7 +63,7 @@ class OperationsHistoryTest extends TestCase
             '2014-12-31'
         );
         $history->push($operation);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
+        $key = $this->getWeekIdentifier($operation->getDate(), $operation->getPerson()->getId());
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(1, $history->getOperations());
@@ -78,7 +78,7 @@ class OperationsHistoryTest extends TestCase
             '2016-12-31'
         );
         $history->push($operation);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
+        $key = $this->getWeekIdentifier($operation->getDate(), $operation->getPerson()->getId());
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(2, $history->getOperations());
@@ -430,5 +430,20 @@ class OperationsHistoryTest extends TestCase
                 new DateTime('2014-12-31')
             ],
         ];
+    }
+
+    /**
+     * @param DateTime $date
+     * @param int $personId
+     * @return string
+     */
+    private function getWeekIdentifier(DateTime $date, int $personId): string
+    {
+        $dayOfWeek = $date->format('w');
+        $date->modify('- ' . (($dayOfWeek - 1 + 7) % 7) . 'days');
+        $sunday = clone $date;
+        $sunday->modify('+ 6 days');
+
+        return "{$date->format('Y-m-d')}-{$sunday->format('Y-m-d')}#$personId";
     }
 }
