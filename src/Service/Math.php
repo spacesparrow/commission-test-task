@@ -12,11 +12,25 @@ class Math
     /** @var int  */
     private $scale;
 
+    /**
+     * Math constructor.
+     *
+     * @param int $scale
+     */
     public function __construct(int $scale)
     {
         $this->scale = $scale;
     }
 
+    /**
+     * Round amount based on currency
+     * For USD and EUR - two digits after dot
+     * For JPY - zero digits after dot
+     *
+     * @param BigDecimal $amount
+     * @param string $currency
+     * @return float
+     */
     public function round(BigDecimal $amount, string $currency): float
     {
         $scale = $currency === Currency::JPY ? 0 : $this->scale;

@@ -13,6 +13,10 @@ use App\CommissionTask\Model\Operation;
 use Brick\Money\Money;
 use Exception;
 
+/**
+ * Class OperationFactory
+ * @package App\CommissionTask\Factory
+ */
 class OperationFactory
 {
     /**

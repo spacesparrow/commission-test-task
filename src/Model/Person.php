@@ -23,7 +23,6 @@ class Person
      *
      * @param int $id
      * @param string $type
-     *
      * @throws UnsupportedPersonTypeException
      */
     public function __construct(int $id, string $type)
@@ -34,21 +33,33 @@ class Person
         $this->type = $type;
     }
 
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
+    /**
+     * @param int $id
+     */
     public function setId(int $id)
     {
         $this->id = $id;
     }
 
+    /**
+     * @return string
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @param string $type
+     */
     public function setType(string $type)
     {
         $this->checkType($type);
@@ -57,8 +68,9 @@ class Person
     }
 
     /**
-     * @param string $type
+     * Check if provided person type exists in config
      *
+     * @param string $type
      * @throws UnsupportedPersonTypeException
      */
     private function checkType(string $type)

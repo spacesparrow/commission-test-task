@@ -54,7 +54,6 @@ abstract class Operation
      * @param string $type
      * @param int $sequenceNumber
      * @param Money $alreadyUsedThisWeek
-     *
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
@@ -82,6 +81,12 @@ abstract class Operation
         $this->alreadyUsedThisWeek = $alreadyUsedThisWeek;
     }
 
+    /**
+     * Calculate commission
+     * Get amount based on operation and person type and then validate based on rules
+     *
+     * @return BigDecimal
+     */
     public function getCommission(): BigDecimal
     {
         $amountForCommission = $this->getAmountForCommission();
@@ -91,6 +96,12 @@ abstract class Operation
         return $this->validateCommission($commission);
     }
 
+    /**
+     * Check if provided operation type exists in config
+     *
+     * @param string $type
+     * @throws UnsupportedOperationTypeException
+     */
     private function checkType(string $type)
     {
         if (!in_array($type, AppConfig::getInstance()->get('operations.types'), true)) {
@@ -98,8 +109,15 @@ abstract class Operation
         }
     }
 
+    /**
+     * @param BigDecimal $actualCommission
+     * @return BigDecimal
+     */
     abstract protected function validateCommission(BigDecimal $actualCommission): BigDecimal;
 
+    /**
+     * @return BigDecimal
+     */
     abstract protected function getAmountForCommission(): BigDecimal;
 
     /**

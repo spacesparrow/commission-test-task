@@ -6,10 +6,20 @@ namespace App\CommissionTask\Exception;
 
 use UnexpectedValueException;
 
+/**
+ * Class UnsupportedCurrencyException
+ * Will be thrown if provided currency is not listed in config
+ * @package App\CommissionTask\Exception
+ */
 class UnsupportedCurrencyException extends UnexpectedValueException
 {
+    /** @var string  */
     protected $message = 'Unsupported currency was provided %s';
 
+    /**
+     * UnsupportedCurrencyException constructor.
+     * @param string $currency
+     */
     public function __construct(string $currency)
     {
         $this->message = sprintf($this->message, $currency);
