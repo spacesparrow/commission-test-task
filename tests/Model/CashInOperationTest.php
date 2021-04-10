@@ -11,6 +11,7 @@ use App\CommissionTask\Model\CashInOperation;
 use App\CommissionTask\Model\Operation;
 use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
+use App\CommissionTask\Service\Math;
 use Brick\Math\BigDecimal;
 use Brick\Money\Money;
 use DateTime;
@@ -134,7 +135,7 @@ class CashInOperationTest extends TestCase
     }
 
     /**
-     * @covers \App\CommissionTask\Model\CashInOperation::getCommission
+     * @covers       \App\CommissionTask\Model\CashInOperation::getCommission
      * @dataProvider dataProviderForGetCommissionTesting
      *
      * @param CashInOperation $operation
@@ -145,6 +146,18 @@ class CashInOperationTest extends TestCase
         static::assertTrue(
             $expectedCommission->isEqualTo($operation->getCommission())
         );
+    }
+
+    /**
+     * @covers       \App\CommissionTask\Model\CashInOperation::getRoundedCommission
+     * @dataProvider dataProviderForGetRoundedCommissionTesting
+     *
+     * @param CashInOperation $operation
+     * @param string $expectedCommission
+     */
+    public function testGetRoundedCommission(CashInOperation $operation, string $expectedCommission)
+    {
+        static::assertSame($expectedCommission, $operation->getRoundedCommission());
     }
 
     public function dataProviderForConstructSuccessTesting(): array
@@ -510,6 +523,155 @@ class CashInOperationTest extends TestCase
                     '2014-12-31'
                 ),
                 $maxAmountInJpy
+            ],
+        ];
+    }
+
+    public function dataProviderForGetRoundedCommissionTesting(): array
+    {
+        $config = AppConfig::getInstance();
+        $roundingScale = $config->get('rounding_scale');
+        $math = new Math($roundingScale);
+        $percent = $config->get('commissions.cash_in.default_percent');
+        $maxAmountInEur = BigDecimal::of($config->get('commissions.cash_in.max_amount'));
+        $maxAmountInUsd = Currency::convert(BigDecimal::of($maxAmountInEur), Currency::EUR, Currency::USD);
+        $maxAmountInJpy = Currency::convert(BigDecimal::of($maxAmountInEur), Currency::EUR, Currency::JPY);
+
+        return [
+            'less that default in EUR' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)200.00,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(200.00)->multipliedBy($percent),
+                    Currency::EUR
+                )
+            ],
+            'equal to default in EUR' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)16666.67,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInEur,
+                    Currency::EUR
+                )
+            ],
+            'more than default in EUR' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)25000,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInEur,
+                    Currency::EUR
+                )
+            ],
+            'less that default in USD' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)200.00,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(200.00)->multipliedBy($percent),
+                    Currency::USD
+                )
+            ],
+            'equal to default in USD' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)19161.67,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInUsd,
+                    Currency::USD
+                )
+            ],
+            'more than default in USD' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)25000,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInUsd,
+                    Currency::USD
+                )
+            ],
+            'less that default in JPY' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)200.00,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(200.00)->multipliedBy($percent),
+                    Currency::JPY
+                )
+            ],
+            'equal to default in JPY' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)2158833.7651,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInJpy,
+                    Currency::JPY
+                )
+            ],
+            'more than default in JPY' => [
+                new CashInOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)3238250,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    $maxAmountInJpy,
+                    Currency::JPY
+                )
             ],
         ];
     }

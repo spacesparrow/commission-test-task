@@ -9,6 +9,7 @@ use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Exception\UnsupportedOperationTypeException;
 use App\CommissionTask\Exception\UnsupportedPersonTypeException;
 use App\CommissionTask\Service\Currency;
+use App\CommissionTask\Service\Math;
 use Brick\Math\BigDecimal;
 use Brick\Money\Money;
 use DateTime;
@@ -42,6 +43,9 @@ abstract class Operation
 
     /** @var Money */
     protected $alreadyUsedThisWeek;
+
+    /** @var Math */
+    private $math;
 
     /**
      * Operation constructor.
@@ -79,6 +83,7 @@ abstract class Operation
         $this->config = AppConfig::getInstance();
         $this->sequenceNumber = $sequenceNumber;
         $this->alreadyUsedThisWeek = $alreadyUsedThisWeek;
+        $this->math = new Math($this->config->get('rounding_scale'));
     }
 
     /**
@@ -94,6 +99,13 @@ abstract class Operation
         $commission = $amountForCommission->multipliedBy($commissionPercent);
 
         return $this->validateCommission($commission);
+    }
+
+    public function getRoundedCommission(): string
+    {
+        $commission = $this->getCommission();
+
+        return $this->math->round($commission->toBigDecimal(), $this->currency->getCurrencyCode());
     }
 
     /**

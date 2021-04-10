@@ -30,7 +30,7 @@ class MathTest extends TestCase
      * @param string $currency
      * @param float $expectedRoundedAmount
      */
-    public function testRound(BigDecimal $amount, string $currency, float $expectedRoundedAmount)
+    public function testRound(BigDecimal $amount, string $currency, string $expectedRoundedAmount)
     {
         static::assertSame($expectedRoundedAmount, $this->math->round($amount, $currency));
     }
@@ -41,167 +41,167 @@ class MathTest extends TestCase
             '0 digits after dot in EUR' => [
                 BigDecimal::of(5),
                 Currency::EUR,
-                5.00
+                '5.00'
             ],
             '1 digit after dot in EUR' => [
                 BigDecimal::of(5.1),
                 Currency::EUR,
-                5.10
+                '5.10'
             ],
             '2 digits after dot in EUR' => [
                 BigDecimal::of(5.12),
                 Currency::EUR,
-                5.12
+                '5.12'
             ],
             '3 digits after dot in EUR' => [
                 BigDecimal::of(0.023),
                 Currency::EUR,
-                0.03
+                '0.03'
             ],
             '4 digits after dot in EUR' => [
                 BigDecimal::of(5.1234),
                 Currency::EUR,
-                5.13
+                '5.13'
             ],
             '5 digits after dot in EUR' => [
                 BigDecimal::of(5.54321),
                 Currency::EUR,
-                5.55
+                '5.55'
             ],
             '6 digits after dot in EUR' => [
                 BigDecimal::of(55.043210),
                 Currency::EUR,
-                55.05
+                '55.05'
             ],
             '7 digits after dot in EUR' => [
                 BigDecimal::of(123.5506432),
                 Currency::EUR,
-                123.56
+                '123.56'
             ],
             '8 digits after dot in EUR' => [
                 BigDecimal::of(5432.61059875),
                 Currency::EUR,
-                5432.62
+                '5432.62'
             ],
             '9 digits after dot in EUR' => [
                 BigDecimal::of(5432.610598751),
                 Currency::EUR,
-                5432.62
+                '5432.62'
             ],
             '10 digits after dot in EUR' => [
                 BigDecimal::of(5432.6705987512),
                 Currency::EUR,
-                5432.68
+                '5432.68'
             ],
             '0 digits after dot in USD' => [
                 BigDecimal::of(5),
                 Currency::USD,
-                5.00
+                '5.00'
             ],
             '1 digit after dot in USD' => [
                 BigDecimal::of(5.1),
                 Currency::USD,
-                5.10
+                '5.10'
             ],
             '2 digits after dot in USD' => [
                 BigDecimal::of(5.12),
                 Currency::USD,
-                5.12
+                '5.12'
             ],
             '3 digits after dot in USD' => [
                 BigDecimal::of(0.023),
                 Currency::USD,
-                0.03
+                '0.03'
             ],
             '4 digits after dot in USD' => [
                 BigDecimal::of(5.1234),
                 Currency::USD,
-                5.13
+                '5.13'
             ],
             '5 digits after dot in USD' => [
                 BigDecimal::of(5.54321),
                 Currency::USD,
-                5.55
+                '5.55'
             ],
             '6 digits after dot in USD' => [
                 BigDecimal::of(55.043210),
                 Currency::USD,
-                55.05
+                '55.05'
             ],
             '7 digits after dot in USD' => [
                 BigDecimal::of(123.5506432),
                 Currency::USD,
-                123.56
+                '123.56'
             ],
             '8 digits after dot in USD' => [
                 BigDecimal::of(5432.61059875),
                 Currency::USD,
-                5432.62
+                '5432.62'
             ],
             '9 digits after dot in USD' => [
                 BigDecimal::of(5432.610598751),
                 Currency::USD,
-                5432.62
+                '5432.62'
             ],
             '10 digits after dot in USD' => [
                 BigDecimal::of(5432.6705987512),
                 Currency::USD,
-                5432.68
+                '5432.68'
             ],
             '0 digits after dot in JPY' => [
                 BigDecimal::of(5),
                 Currency::JPY,
-                5
+                '5'
             ],
             '1 digit after dot in JPY' => [
                 BigDecimal::of(5.1),
                 Currency::JPY,
-                6
+                '6'
             ],
             '2 digits after dot in JPY' => [
                 BigDecimal::of(5.12),
                 Currency::JPY,
-                6
+                '6'
             ],
             '3 digits after dot in JPY' => [
                 BigDecimal::of(0.023),
                 Currency::JPY,
-                1
+                '1'
             ],
             '4 digits after dot in JPY' => [
                 BigDecimal::of(5.1234),
                 Currency::JPY,
-                6
+                '6'
             ],
             '5 digits after dot in JPY' => [
                 BigDecimal::of(5.54321),
                 Currency::JPY,
-                6
+                '6'
             ],
             '6 digits after dot in JPY' => [
                 BigDecimal::of(55.043210),
                 Currency::JPY,
-                56
+                '56'
             ],
             '7 digits after dot in JPY' => [
                 BigDecimal::of(123.5506432),
                 Currency::JPY,
-                124
+                '124'
             ],
             '8 digits after dot in JPY' => [
                 BigDecimal::of(5432.61059875),
                 Currency::JPY,
-                5433
+                '5433'
             ],
             '9 digits after dot in JPY' => [
                 BigDecimal::of(5432.610598751),
                 Currency::JPY,
-                5433
+                '5433'
             ],
             '10 digits after dot in JPY' => [
                 BigDecimal::of(5432.6705987512),
                 Currency::JPY,
-                5433
+                '5433'
             ],
         ];
     }

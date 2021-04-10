@@ -6,6 +6,7 @@ namespace App\CommissionTask\Service;
 
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
+use Brick\Money\Context\CustomContext;
 
 class Math
 {
@@ -29,12 +30,12 @@ class Math
      *
      * @param BigDecimal $amount
      * @param string $currency
-     * @return float
+     * @return string
      */
-    public function round(BigDecimal $amount, string $currency): float
+    public function round(BigDecimal $amount, string $currency): string
     {
         $scale = $currency === Currency::JPY ? 0 : $this->scale;
 
-        return $amount->toScale($scale, RoundingMode::UP)->toFloat();
+        return (string)$amount->toScale($scale, RoundingMode::UP);
     }
 }

@@ -11,6 +11,7 @@ use App\CommissionTask\Model\CashOutOperation;
 use App\CommissionTask\Model\Operation;
 use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
+use App\CommissionTask\Service\Math;
 use Brick\Math\BigDecimal;
 use Brick\Money\Money;
 use DateTime;
@@ -150,6 +151,18 @@ class CashOutOperationTest extends TestCase
         static::assertTrue(
             $expectedCommission->isEqualTo($operation->getCommission())
         );
+    }
+
+    /**
+     * @covers \App\CommissionTask\Model\CashOutOperation::getRoundedCommission
+     * @dataProvider dataProviderForGetRoundedCommissionTesting
+     *
+     * @param CashOutOperation $operation
+     * @param string $expectedCommission
+     */
+    public function testGetRoundedCommission(CashOutOperation $operation, string $expectedCommission)
+    {
+        static::assertSame($expectedCommission, $operation->getRoundedCommission());
     }
 
     public function dataProviderForConstructSuccessTesting(): array
@@ -568,6 +581,190 @@ class CashOutOperationTest extends TestCase
                     '2014-12-31'
                 ),
                 BigDecimal::of(50.00)->multipliedBy($percent)
+            ],
+        ];
+    }
+
+    public function dataProviderForGetRoundedCommissionTesting(): array
+    {
+        $config = AppConfig::getInstance();
+        $percent = $config->get('commissions.cash_out.default_percent');
+        $roundingScale = $config->get('rounding_scale');
+        $math = new Math($roundingScale);
+
+        return [
+            'less than default in EUR for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of($config->get('commissions.cash_out.min_legal_person_amount')),
+                    Currency::EUR
+                )
+            ],
+            'equal to default in EUR for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)167.00,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(167.00)->multipliedBy($percent),
+                    Currency::EUR
+                )
+            ],
+            'more than default in EUR for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)200.00,
+                    Currency::EUR,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(200.00)->multipliedBy($percent),
+                    Currency::EUR
+                )
+            ],
+            'less than default in USD for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50.00,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    Currency::convert(
+                        $config->get('commissions.cash_out.min_legal_person_amount'),
+                        Currency::EUR,
+                        Currency::USD
+                    ),
+                    Currency::USD
+                )
+            ],
+            'equal to default in USD for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)192.00,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(192.00)->multipliedBy($percent),
+                    Currency::USD
+                )
+            ],
+            'more than default in USD for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)500.00,
+                    Currency::USD,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(500.00)->multipliedBy($percent),
+                    Currency::USD
+                )
+            ],
+            'less than default in JPY for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)15000.00,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    Currency::convert(
+                        $config->get('commissions.cash_out.min_legal_person_amount'),
+                        Currency::EUR,
+                        Currency::JPY
+                    ),
+                    Currency::JPY
+                )
+            ],
+            'equal to default in JPY for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)21600.00,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(21600.00)->multipliedBy($percent),
+                    Currency::JPY
+                )
+            ],
+            'more than default in JPY for legal' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_LEGAL,
+                    (string)50000.00,
+                    Currency::JPY,
+                    0,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(50000.00)->multipliedBy($percent),
+                    Currency::JPY
+                )
+            ],
+            'for natural when operations number per week exceeded' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    4,
+                    Money::zero(Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(50.00)->multipliedBy($percent),
+                    Currency::EUR
+                )
+            ],
+            'for natural when operations amount per week exceeded' => [
+                new CashOutOperation(
+                    1,
+                    Person::TYPE_NATURAL,
+                    (string)50.00,
+                    Currency::EUR,
+                    0,
+                    Money::of(1000, Currency::EUR),
+                    '2014-12-31'
+                ),
+                $math->round(
+                    BigDecimal::of(50.00)->multipliedBy($percent),
+                    Currency::EUR
+                )
             ],
         ];
     }
