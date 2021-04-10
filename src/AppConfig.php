@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\CommissionTask;
 
 use Aimeos\Map;
+use Exception;
 
 class AppConfig
 {
@@ -26,11 +27,20 @@ class AppConfig
 
     public static function getInstance(): AppConfig
     {
-        return self::$instance ?: new self();
+        return self::$instance ?? new static();
     }
 
     public function get(string $key, $default = null)
     {
         return $this->config->get($key, $default);
+    }
+
+    protected function __clone()
+    {
+    }
+
+    public function __wakeup()
+    {
+        throw new Exception("Cannot unserialize singleton");
     }
 }
