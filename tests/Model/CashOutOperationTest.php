@@ -13,9 +13,13 @@ use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
 use App\CommissionTask\Service\Math;
 use Brick\Math\BigDecimal;
+use Brick\Money\Exception\CurrencyConversionException;
+use Brick\Money\Exception\UnknownCurrencyException;
 use Brick\Money\Money;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use ReflectionMethod;
 
 class CashOutOperationTest extends TestCase
@@ -31,6 +35,7 @@ class CashOutOperationTest extends TestCase
      * @param string $currency
      * @param int $sequenceNumber ,
      * @param Money $alreadyUsedThisWeek
+     * @throws Exception
      */
     public function testConstructSuccess(
         string $date,
@@ -73,6 +78,7 @@ class CashOutOperationTest extends TestCase
      * @param Money $alreadyUsedThisWeek
      * @param string $exception
      * @param string $exceptionMessage
+     * @throws Exception
      */
     public function testConstructThrowsException(
         string $date,
@@ -105,6 +111,7 @@ class CashOutOperationTest extends TestCase
      *
      * @param CashOutOperation $operation
      * @param BigDecimal $expectedCommission
+     * @throws ReflectionException
      */
     public function testValidateCommission(CashOutOperation $operation, BigDecimal $expectedCommission)
     {
@@ -123,6 +130,7 @@ class CashOutOperationTest extends TestCase
      *
      * @param CashOutOperation $operation
      * @param BigDecimal $expectedAmount
+     * @throws ReflectionException
      */
     public function testGetAmountForCommission(CashOutOperation $operation, BigDecimal $expectedAmount)
     {
@@ -154,7 +162,7 @@ class CashOutOperationTest extends TestCase
     }
 
     /**
-     * @covers \App\CommissionTask\Model\CashOutOperation::getRoundedCommission
+     * @covers       \App\CommissionTask\Model\CashOutOperation::getRoundedCommission
      * @dataProvider dataProviderForGetRoundedCommissionTesting
      *
      * @param CashOutOperation $operation
@@ -165,6 +173,9 @@ class CashOutOperationTest extends TestCase
         static::assertSame($expectedCommission, $operation->getRoundedCommission());
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForConstructSuccessTesting(): array
     {
         return [
@@ -225,6 +236,9 @@ class CashOutOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForConstructThrowsExceptionTesting(): array
     {
         return [
@@ -253,6 +267,11 @@ class CashOutOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForValidateCommissionTesting(): array
     {
         $config = AppConfig::getInstance();
@@ -394,6 +413,11 @@ class CashOutOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForGetAmountForCommissionTesting(): array
     {
         return [
@@ -436,6 +460,12 @@ class CashOutOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws UnknownCurrencyException
+     * @throws CurrencyConversionException
+     * @throws Exception
+     */
     public function dataProviderForGetCommissionTesting(): array
     {
         $config = AppConfig::getInstance();
@@ -585,6 +615,12 @@ class CashOutOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws CurrencyConversionException
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForGetRoundedCommissionTesting(): array
     {
         $config = AppConfig::getInstance();

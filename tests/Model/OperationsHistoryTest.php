@@ -11,8 +11,12 @@ use App\CommissionTask\Model\OperationsHistory;
 use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\RoundingMode;
+use Brick\Money\Exception\CurrencyConversionException;
+use Brick\Money\Exception\MoneyMismatchException;
+use Brick\Money\Exception\UnknownCurrencyException;
 use Brick\Money\Money;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class OperationsHistoryTest extends TestCase
@@ -27,6 +31,7 @@ class OperationsHistoryTest extends TestCase
 
     /**
      * @covers \App\CommissionTask\Model\OperationsHistory::push
+     * @throws Exception
      */
     public function testPush()
     {
@@ -92,6 +97,9 @@ class OperationsHistoryTest extends TestCase
      * @param Person $person
      * @param DateTime $date
      * @param string|null $operationType
+     * @throws CurrencyConversionException
+     * @throws MoneyMismatchException
+     * @throws UnknownCurrencyException
      */
     public function testGetAmountUsedInWeekForPerson(
         OperationsHistory $history,
@@ -104,7 +112,7 @@ class OperationsHistoryTest extends TestCase
     }
 
     /**
-     * @covers \App\CommissionTask\Model\OperationsHistory::getOperationsCountInWeekForPerson()
+     * @covers       \App\CommissionTask\Model\OperationsHistory::getOperationsCountInWeekForPerson()
      * @dataProvider dataProviderForGetOperationsCountInWeekForPersonTesting
      *
      * @param OperationsHistory $history
@@ -123,6 +131,13 @@ class OperationsHistoryTest extends TestCase
         static::assertSame($expectedCount, $history->getOperationsCountInWeekForPerson($person, $date, $operationType));
     }
 
+    /**
+     * @return array[]
+     * @throws CurrencyConversionException
+     * @throws MoneyMismatchException
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForGetAmountUsedInWeekForPersonTesting(): array
     {
         return [
@@ -298,6 +313,10 @@ class OperationsHistoryTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws Exception
+     */
     public function dataProviderForGetOperationsCountInWeekForPersonTesting(): array
     {
         return [

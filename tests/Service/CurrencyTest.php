@@ -9,6 +9,8 @@ use App\CommissionTask\Exception\UnsupportedCurrencyException;
 use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
+use Brick\Money\Exception\CurrencyConversionException;
+use Brick\Money\Exception\UnknownCurrencyException;
 use PHPUnit\Framework\TestCase;
 
 class CurrencyTest extends TestCase
@@ -46,12 +48,17 @@ class CurrencyTest extends TestCase
      * @param string $from
      * @param string $to
      * @param BigDecimal $expected
+     * @throws CurrencyConversionException
+     * @throws UnknownCurrencyException
      */
     public function testConvert(float $amount, string $from, string $to, BigDecimal $expected)
     {
         static::assertEquals($expected->toFloat(), Currency::convert($amount, $from, $to)->toFloat());
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForConstructorSuccessTesting(): array
     {
         $allowedCurrencies = AppConfig::getInstance()->get('currencies.supported');
@@ -61,6 +68,9 @@ class CurrencyTest extends TestCase
         }, $allowedCurrencies);
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForConvertTesting(): array
     {
         $config = AppConfig::getInstance();

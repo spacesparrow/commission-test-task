@@ -28,13 +28,16 @@ class MathTest extends TestCase
      *
      * @param BigDecimal $amount
      * @param string $currency
-     * @param float $expectedRoundedAmount
+     * @param string $expectedRoundedAmount
      */
     public function testRound(BigDecimal $amount, string $currency, string $expectedRoundedAmount)
     {
         static::assertSame($expectedRoundedAmount, $this->math->round($amount, $currency));
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForRoundTesting(): array
     {
         return [

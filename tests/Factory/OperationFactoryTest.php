@@ -14,6 +14,7 @@ use App\CommissionTask\Service\Currency;
 use Brick\Math\BigDecimal;
 use Brick\Money\Money;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class OperationFactoryTest extends TestCase
@@ -30,6 +31,7 @@ class OperationFactoryTest extends TestCase
      * @param string $currency
      * @param int $sequenceNumber
      * @param Money $alreadyUsedThisWeek
+     * @throws Exception
      */
     public function testCreateSuccess(
         string $date,
@@ -62,7 +64,7 @@ class OperationFactoryTest extends TestCase
     }
 
     /**
-     * @covers \App\CommissionTask\Factory\OperationFactory::create
+     * @covers       \App\CommissionTask\Factory\OperationFactory::create
      * @dataProvider dataProviderForCreateThrowsExceptionTesting
      *
      * @param string $date
@@ -75,6 +77,7 @@ class OperationFactoryTest extends TestCase
      * @param Money $alreadyUsedThisWeek
      * @param string $exception
      * @param string $exceptionMessage
+     * @throws Exception
      */
     public function testCreateThrowsException(
         string $date,
@@ -103,6 +106,9 @@ class OperationFactoryTest extends TestCase
         );
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForCreateSuccessTesting(): array
     {
         return [
@@ -229,6 +235,9 @@ class OperationFactoryTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForCreateThrowsExceptionTesting(): array
     {
         return [

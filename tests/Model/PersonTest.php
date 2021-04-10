@@ -37,6 +37,9 @@ class PersonTest extends TestCase
         new Person(1, $unsupportedType);
     }
 
+    /**
+     * @return array
+     */
     public function dataProviderForConstructSuccessTesting(): array
     {
         $personTypes = AppConfig::getInstance()->get('persons.types');

@@ -13,9 +13,14 @@ use App\CommissionTask\Model\Person;
 use App\CommissionTask\Service\Currency;
 use App\CommissionTask\Service\Math;
 use Brick\Math\BigDecimal;
+use Brick\Money\Exception\CurrencyConversionException;
+use Brick\Money\Exception\UnknownCurrencyException;
 use Brick\Money\Money;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use ReflectionMethod;
 
 class CashInOperationTest extends TestCase
 {
@@ -30,6 +35,7 @@ class CashInOperationTest extends TestCase
      * @param string $currency
      * @param int $sequenceNumber
      * @param Money $alreadyUsedThisWeek
+     * @throws Exception
      */
     public function testConstructSuccess(
         string $date,
@@ -72,6 +78,7 @@ class CashInOperationTest extends TestCase
      * @param Money $alreadyUsedThisWeek
      * @param string $exception
      * @param string $exceptionMessage
+     * @throws Exception
      */
     public function testConstructThrowsException(
         string $date,
@@ -104,10 +111,11 @@ class CashInOperationTest extends TestCase
      *
      * @param CashInOperation $operation
      * @param BigDecimal $expectedCommission
+     * @throws ReflectionException
      */
     public function testValidateCommission(CashInOperation $operation, BigDecimal $expectedCommission)
     {
-        $method = new \ReflectionMethod(CashInOperation::class, 'validateCommission');
+        $method = new ReflectionMethod(CashInOperation::class, 'validateCommission');
         $method->setAccessible(true);
 
         static::assertTrue(
@@ -122,10 +130,11 @@ class CashInOperationTest extends TestCase
      *
      * @param CashInOperation $operation
      * @param BigDecimal $expectedAmount
+     * @throws ReflectionException
      */
     public function testGetAmountForCommission(CashInOperation $operation, BigDecimal $expectedAmount)
     {
-        $method = new \ReflectionMethod(CashInOperation::class, 'getAmountForCommission');
+        $method = new ReflectionMethod(CashInOperation::class, 'getAmountForCommission');
         $method->setAccessible(true);
 
         static::assertTrue(
@@ -160,6 +169,9 @@ class CashInOperationTest extends TestCase
         static::assertSame($expectedCommission, $operation->getRoundedCommission());
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForConstructSuccessTesting(): array
     {
         return [
@@ -220,6 +232,9 @@ class CashInOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     */
     public function dataProviderForConstructThrowsExceptionTesting(): array
     {
         return [
@@ -248,6 +263,10 @@ class CashInOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws Exception
+     */
     public function dataProviderForValidateCommissionTesting(): array
     {
         $config = AppConfig::getInstance();
@@ -365,6 +384,10 @@ class CashInOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws Exception
+     */
     public function dataProviderForGetAmountForCommissionTesting(): array
     {
         return [
@@ -407,6 +430,12 @@ class CashInOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws CurrencyConversionException
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForGetCommissionTesting(): array
     {
         $config = AppConfig::getInstance();
@@ -527,6 +556,12 @@ class CashInOperationTest extends TestCase
         ];
     }
 
+    /**
+     * @return array[]
+     * @throws CurrencyConversionException
+     * @throws UnknownCurrencyException
+     * @throws Exception
+     */
     public function dataProviderForGetRoundedCommissionTesting(): array
     {
         $config = AppConfig::getInstance();
