@@ -24,8 +24,8 @@ class CashOutOperationTest extends TestCase
      * @dataProvider dataProviderForConstructSuccessTesting
      *
      * @param string $date
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currency
      * @param int $sequenceNumber ,
@@ -33,16 +33,16 @@ class CashOutOperationTest extends TestCase
      */
     public function testConstructSuccess(
         string $date,
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currency,
         int $sequenceNumber,
         Money $alreadyUsedThisWeek
     ) {
         $cashOutOperation = new CashOutOperation(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currency,
             $sequenceNumber,
@@ -52,7 +52,7 @@ class CashOutOperationTest extends TestCase
 
         static::assertSame(Operation::TYPE_CASH_OUT, $cashOutOperation->getType());
         static::assertEquals(new DateTime($date), $cashOutOperation->getDate());
-        static::assertEquals(new Person($userId, $userType), $cashOutOperation->getUser());
+        static::assertEquals(new Person($personId, $personType), $cashOutOperation->getPerson());
         static::assertEquals(BigDecimal::of($amount), $cashOutOperation->getAmount());
         static::assertEquals(new Currency($currency), $cashOutOperation->getCurrency());
         static::assertSame($sequenceNumber, $cashOutOperation->getSequenceNumber());
@@ -64,8 +64,8 @@ class CashOutOperationTest extends TestCase
      * @dataProvider dataProviderForConstructThrowsExceptionTesting
      *
      * @param string $date
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currency
      * @param int $sequenceNumber
@@ -75,8 +75,8 @@ class CashOutOperationTest extends TestCase
      */
     public function testConstructThrowsException(
         string $date,
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currency,
         int $sequenceNumber,
@@ -88,8 +88,8 @@ class CashOutOperationTest extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         new CashOutOperation(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currency,
             $sequenceNumber,

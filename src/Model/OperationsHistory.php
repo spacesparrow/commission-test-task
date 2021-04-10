@@ -42,7 +42,7 @@ class OperationsHistory
      */
     public function push(Operation $operation): OperationsHistory
     {
-        $week = $operation->getDate()->format('Y-W') . "#{$operation->getUser()->getId()}";
+        $week = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
         $this->operations[$week][] = $operation;
 
         return $this;
@@ -52,7 +52,7 @@ class OperationsHistory
      * Get amount that person already used during the week
      * Get week from provided date, filter by operation type if needed
      *
-     * @param Person $user
+     * @param Person $person
      * @param DateTime $date
      * @param string|null $operationType
      * @return Money
@@ -60,11 +60,11 @@ class OperationsHistory
      * @throws MoneyMismatchException
      * @throws UnknownCurrencyException
      */
-    public function getAmountUsedInWeekForUser(Person $user, DateTime $date, string $operationType = null): Money
+    public function getAmountUsedInWeekForPerson(Person $person, DateTime $date, string $operationType = null): Money
     {
         $this->checkOperationType($operationType);
 
-        $week = $date->format('Y-W') . "#{$user->getId()}";
+        $week = $date->format('Y-W') . "#{$person->getId()}";
         $amountInEur = Money::zero(Currency::EUR);
 
         if (empty($this->operations[$week])) {
@@ -95,16 +95,16 @@ class OperationsHistory
      * Get operations count person already performed during the week
      * Get week from provided date, filter by operation type if needed
      *
-     * @param Person $user
+     * @param Person $person
      * @param DateTime $date
      * @param string|null $operationType
      * @return int
      */
-    public function getOperationsCountInWeekForUser(Person $user, DateTime $date, string $operationType = null): int
+    public function getOperationsCountInWeekForPerson(Person $person, DateTime $date, string $operationType = null): int
     {
         $this->checkOperationType($operationType);
 
-        $week = $date->format('Y-W') . "#{$user->getId()}";
+        $week = $date->format('Y-W') . "#{$person->getId()}";
 
         if (empty($this->operations[$week])) {
             return 0;

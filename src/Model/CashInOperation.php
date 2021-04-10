@@ -22,12 +22,13 @@ class CashInOperation extends Operation
 {
     /**
      * CashInOperation constructor.
-     * @param int $userId
-     * @param string $userType
+     *
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currencyCode
      * @param int $sequenceNumber
-     * @param Money $alreadyUserThisWeek
+     * @param Money $alreadyUsedThisWeek
      * @param string $date
      * @throws Exception
      * @throws UnsupportedOperationTypeException
@@ -35,23 +36,23 @@ class CashInOperation extends Operation
      * @throws UnsupportedCurrencyException
      */
     public function __construct(
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currencyCode,
         int $sequenceNumber,
-        Money $alreadyUserThisWeek,
+        Money $alreadyUsedThisWeek,
         string $date = 'now'
     ) {
         parent::__construct(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currencyCode,
             $date,
             Operation::TYPE_CASH_IN,
             $sequenceNumber,
-            $alreadyUserThisWeek
+            $alreadyUsedThisWeek
         );
     }
 

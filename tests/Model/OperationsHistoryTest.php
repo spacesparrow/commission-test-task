@@ -44,7 +44,7 @@ class OperationsHistoryTest extends TestCase
         static::assertAttributeEmpty('operations', $history);
         $history->push($operation);
         static::assertAttributeNotEmpty('operations', $history);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getUser()->getId()}";
+        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(1, $history->getOperations());
@@ -60,7 +60,7 @@ class OperationsHistoryTest extends TestCase
             '2014-12-31'
         );
         $history->push($operation);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getUser()->getId()}";
+        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(1, $history->getOperations());
@@ -76,7 +76,7 @@ class OperationsHistoryTest extends TestCase
             '2016-12-31'
         );
         $history->push($operation);
-        $key = $operation->getDate()->format('Y-W') . "#{$operation->getUser()->getId()}";
+        $key = $operation->getDate()->format('Y-W') . "#{$operation->getPerson()->getId()}";
         static::assertArrayHasKey($key, $history->getOperations());
         static::assertContains($operation, $history->getOperations()[$key]);
         static::assertCount(2, $history->getOperations());
@@ -84,46 +84,46 @@ class OperationsHistoryTest extends TestCase
     }
 
     /**
-     * @covers       \App\CommissionTask\Model\OperationsHistory::getAmountUsedInWeekForUser
-     * @dataProvider dataProviderForGetAmountUsedInWeekForUserTesting
+     * @covers       \App\CommissionTask\Model\OperationsHistory::getAmountUsedInWeekForPerson
+     * @dataProvider dataProviderForGetAmountUsedInWeekForPersonTesting
      *
      * @param OperationsHistory $history
      * @param Money $expectedAmount
-     * @param Person $user
+     * @param Person $person
      * @param DateTime $date
      * @param string|null $operationType
      */
-    public function testGetAmountUsedInWeekForUser(
+    public function testGetAmountUsedInWeekForPerson(
         OperationsHistory $history,
         Money $expectedAmount,
-        Person $user,
+        Person $person,
         DateTime $date,
         string $operationType = null
     ) {
-        static::assertEquals($expectedAmount, $history->getAmountUsedInWeekForUser($user, $date, $operationType));
+        static::assertEquals($expectedAmount, $history->getAmountUsedInWeekForPerson($person, $date, $operationType));
     }
 
     /**
-     * @covers \App\CommissionTask\Model\OperationsHistory::getOperationsCountInWeekForUser()
-     * @dataProvider dataProviderForGetOperationsCountInWeekForUserTesting
+     * @covers \App\CommissionTask\Model\OperationsHistory::getOperationsCountInWeekForPerson()
+     * @dataProvider dataProviderForGetOperationsCountInWeekForPersonTesting
      *
      * @param OperationsHistory $history
      * @param int $expectedCount
-     * @param Person $user
+     * @param Person $person
      * @param DateTime $date
      * @param string|null $operationType
      */
-    public function testGetOperationsCountInWeekForUser(
+    public function testGetOperationsCountInWeekForPerson(
         OperationsHistory $history,
         int $expectedCount,
-        Person $user,
+        Person $person,
         DateTime $date,
         string $operationType = null
     ) {
-        static::assertSame($expectedCount, $history->getOperationsCountInWeekForUser($user, $date, $operationType));
+        static::assertSame($expectedCount, $history->getOperationsCountInWeekForPerson($person, $date, $operationType));
     }
 
-    public function dataProviderForGetAmountUsedInWeekForUserTesting(): array
+    public function dataProviderForGetAmountUsedInWeekForPersonTesting(): array
     {
         return [
             'empty operations' => [
@@ -298,7 +298,7 @@ class OperationsHistoryTest extends TestCase
         ];
     }
 
-    public function dataProviderForGetOperationsCountInWeekForUserTesting(): array
+    public function dataProviderForGetOperationsCountInWeekForPersonTesting(): array
     {
         return [
             'empty operations' => [
@@ -411,7 +411,7 @@ class OperationsHistoryTest extends TestCase
                 new Person(1, Person::TYPE_NATURAL),
                 new DateTime('2014-12-31')
             ],
-            'two operations in week for different users' => [
+            'two operations in week for different persons' => [
                 (new OperationsHistory())
                     ->push(new CashInOperation(
                         1,

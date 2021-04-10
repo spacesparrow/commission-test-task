@@ -26,7 +26,7 @@ abstract class Operation
     protected $date;
 
     /** @var Person */
-    protected $user;
+    protected $person;
 
     /** @var BigDecimal */
     protected $amount;
@@ -46,8 +46,8 @@ abstract class Operation
     /**
      * Operation constructor.
      *
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currencyCode
      * @param string $date
@@ -60,8 +60,8 @@ abstract class Operation
      * @throws UnsupportedCurrencyException
      */
     public function __construct(
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currencyCode,
         string $date,
@@ -73,7 +73,7 @@ abstract class Operation
 
         $this->type = $type;
         $this->date = new DateTime($date);
-        $this->user = new Person($userId, $userType);
+        $this->person = new Person($personId, $personType);
         $this->currency = new Currency($currencyCode);
         $this->amount = BigDecimal::of($amount);
         $this->config = AppConfig::getInstance();
@@ -139,9 +139,9 @@ abstract class Operation
     /**
      * @return Person
      */
-    public function getUser(): Person
+    public function getPerson(): Person
     {
-        return $this->user;
+        return $this->person;
     }
 
     /**

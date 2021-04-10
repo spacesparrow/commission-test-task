@@ -20,8 +20,8 @@ use Exception;
 class OperationFactory
 {
     /**
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currencyCode
      * @param string $type
@@ -29,15 +29,14 @@ class OperationFactory
      * @param int $sequenceNumber
      * @param Money $usedThisWeek
      * @return Operation
-     *
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
      * @throws UnsupportedCurrencyException
      */
     public static function create(
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currencyCode,
         string $type,
@@ -48,8 +47,8 @@ class OperationFactory
         switch ($type) {
             case Operation::TYPE_CASH_IN:
                 return new CashInOperation(
-                    $userId,
-                    $userType,
+                    $personId,
+                    $personType,
                     $amount,
                     $currencyCode,
                     $sequenceNumber,
@@ -58,8 +57,8 @@ class OperationFactory
                 );
             case Operation::TYPE_CASH_OUT:
                 return new CashOutOperation(
-                    $userId,
-                    $userType,
+                    $personId,
+                    $personType,
                     $amount,
                     $currencyCode,
                     $sequenceNumber,

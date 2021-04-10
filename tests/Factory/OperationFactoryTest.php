@@ -23,8 +23,8 @@ class OperationFactoryTest extends TestCase
      * @dataProvider dataProviderForCreateSuccessTesting
      *
      * @param string $date
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $operationType
      * @param string $amount
      * @param string $currency
@@ -33,8 +33,8 @@ class OperationFactoryTest extends TestCase
      */
     public function testCreateSuccess(
         string $date,
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $operationType,
         string $amount,
         string $currency,
@@ -42,8 +42,8 @@ class OperationFactoryTest extends TestCase
         Money $alreadyUsedThisWeek
     ) {
         $operation = OperationFactory::create(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currency,
             $operationType,
@@ -54,7 +54,7 @@ class OperationFactoryTest extends TestCase
 
         static::assertSame($operationType, $operation->getType());
         static::assertEquals(new DateTime($date), $operation->getDate());
-        static::assertEquals(new Person($userId, $userType), $operation->getUser());
+        static::assertEquals(new Person($personId, $personType), $operation->getPerson());
         static::assertEquals(BigDecimal::of($amount), $operation->getAmount());
         static::assertEquals(new Currency($currency), $operation->getCurrency());
         static::assertSame($sequenceNumber, $operation->getSequenceNumber());
@@ -66,8 +66,8 @@ class OperationFactoryTest extends TestCase
      * @dataProvider dataProviderForCreateThrowsExceptionTesting
      *
      * @param string $date
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $operationType
      * @param string $amount
      * @param string $currency
@@ -78,8 +78,8 @@ class OperationFactoryTest extends TestCase
      */
     public function testCreateThrowsException(
         string $date,
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $operationType,
         string $amount,
         string $currency,
@@ -92,8 +92,8 @@ class OperationFactoryTest extends TestCase
         $this->expectExceptionMessage($exceptionMessage);
 
         OperationFactory::create(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currency,
             $operationType,

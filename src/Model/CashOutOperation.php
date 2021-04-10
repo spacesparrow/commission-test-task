@@ -24,12 +24,12 @@ class CashOutOperation extends Operation
 {
     /**
      * CashOutOperation constructor.
-     * @param int $userId
-     * @param string $userType
+     * @param int $personId
+     * @param string $personType
      * @param string $amount
      * @param string $currencyCode
      * @param int $sequenceNumber
-     * @param Money $alreadyUserThisWeek
+     * @param Money $alreadyUsedThisWeek
      * @param string $date
      * @throws Exception
      * @throws UnsupportedOperationTypeException
@@ -37,23 +37,23 @@ class CashOutOperation extends Operation
      * @throws UnsupportedCurrencyException
      */
     public function __construct(
-        int $userId,
-        string $userType,
+        int $personId,
+        string $personType,
         string $amount,
         string $currencyCode,
         int $sequenceNumber,
-        Money $alreadyUserThisWeek,
+        Money $alreadyUsedThisWeek,
         string $date = 'now'
     ) {
         parent::__construct(
-            $userId,
-            $userType,
+            $personId,
+            $personType,
             $amount,
             $currencyCode,
             $date,
             Operation::TYPE_CASH_OUT,
             $sequenceNumber,
-            $alreadyUserThisWeek
+            $alreadyUsedThisWeek
         );
     }
 
@@ -72,11 +72,11 @@ class CashOutOperation extends Operation
      */
     protected function validateCommission(BigDecimal $actualCommission): BigDecimal
     {
-        if ($this->user->getType() === Person::TYPE_NATURAL) {
+        if ($this->person->getType() === Person::TYPE_NATURAL) {
             return $actualCommission;
         }
 
-        if ($this->user->getType() === Person::TYPE_LEGAL) {
+        if ($this->person->getType() === Person::TYPE_LEGAL) {
             $allowedCommissionBase =
                 $this->config->get("commissions.$this->type.min_legal_person_amount");
             $limitedCommissionConverted = Currency::convert(
@@ -90,7 +90,7 @@ class CashOutOperation extends Operation
                 : $limitedCommissionConverted;
         }
 
-        throw new UnsupportedPersonTypeException($this->user->getType());
+        throw new UnsupportedPersonTypeException($this->person->getType());
     }
 
     /**
@@ -111,7 +111,7 @@ class CashOutOperation extends Operation
      */
     protected function getAmountForCommission(): BigDecimal
     {
-        if ($this->user->getType() === Person::TYPE_LEGAL) {
+        if ($this->person->getType() === Person::TYPE_LEGAL) {
             return $this->amount;
         }
 
@@ -125,7 +125,7 @@ class CashOutOperation extends Operation
         $maxAllowedAmountInEur = Currency::convert($maxAllowedAmount, $maxAllowedAmountCurrency, Currency::EUR);
         $willBeUsedThisWeek = $this->alreadyUsedThisWeek->plus($amountInEur, RoundingMode::UP);
 
-        if ($this->user->getType() === Person::TYPE_NATURAL) {
+        if ($this->person->getType() === Person::TYPE_NATURAL) {
             if ($this->sequenceNumber > $this->config->get("commissions.$this->type.max_natural_person_count")) {
                 return $this->amount;
             }
@@ -141,6 +141,6 @@ class CashOutOperation extends Operation
             return BigDecimal::zero();
         }
 
-        throw new UnsupportedPersonTypeException($this->user->getType());
+        throw new UnsupportedPersonTypeException($this->person->getType());
     }
 }
