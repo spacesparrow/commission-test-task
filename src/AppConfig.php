@@ -22,7 +22,7 @@ class AppConfig
 
     private function init()
     {
-        $this->config = Map::from(require __DIR__ . '/../config/app.php');
+        $this->config = Map::from(require __DIR__.'/../config/app.php');
     }
 
     public static function getInstance(): AppConfig
@@ -41,6 +41,6 @@ class AppConfig
 
     public function __wakeup()
     {
-        throw new Exception("Cannot unserialize singleton");
+        throw new Exception('Cannot unserialize singleton');
     }
 }

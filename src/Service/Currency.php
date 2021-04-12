@@ -28,7 +28,6 @@ class Currency
     /**
      * Currency constructor.
      *
-     * @param string $code
      * @throws UnsupportedCurrencyException
      */
     public function __construct(string $code)
@@ -39,12 +38,12 @@ class Currency
     }
 
     /**
-     * Convert provided amount from one currency to another with configured rates
+     * Convert provided amount from one currency to another with configured rates.
      *
      * @param $amount
      * @param $from
      * @param $to
-     * @return BigDecimal
+     *
      * @throws CurrencyConversionException
      * @throws UnknownCurrencyException
      */
@@ -70,18 +69,14 @@ class Currency
         return $converter->convert(Money::of($amount, $from), $to, RoundingMode::UP)->getAmount();
     }
 
-    /**
-     * @return string
-     */
     public function getCurrencyCode(): string
     {
         return $this->code;
     }
 
     /**
-     * Check if provided currency exists in config
+     * Check if provided currency exists in config.
      *
-     * @param string $code
      * @throws UnsupportedCurrencyException
      */
     private function checkCurrencySupported(string $code)

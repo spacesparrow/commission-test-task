@@ -8,17 +8,15 @@ use UnexpectedValueException;
 
 /**
  * Class UnsupportedPersonTypeException
- * Will be thrown if provided person type is not listed in config
- * @package App\CommissionTask\Exception
+ * Will be thrown if provided person type is not listed in config.
  */
 class UnsupportedPersonTypeException extends UnexpectedValueException
 {
-    /** @var string  */
+    /** @var string */
     protected $message = 'Unsupported person type was provided %s';
 
     /**
      * UnsupportedPersonTypeException constructor.
-     * @param string $type
      */
     public function __construct(string $type)
     {

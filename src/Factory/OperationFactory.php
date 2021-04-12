@@ -15,20 +15,11 @@ use Brick\Money\Money;
 use Exception;
 
 /**
- * Class OperationFactory
- * @package App\CommissionTask\Factory
+ * Class OperationFactory.
  */
 class OperationFactory
 {
     /**
-     * @param Person $person
-     * @param string $amount
-     * @param string $currencyCode
-     * @param string $type
-     * @param string $date
-     * @param int $sequenceNumber
-     * @param Money $usedThisWeek
-     * @return Operation
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException

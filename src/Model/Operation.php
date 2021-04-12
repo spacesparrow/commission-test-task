@@ -50,13 +50,6 @@ abstract class Operation
     /**
      * Operation constructor.
      *
-     * @param Person $person
-     * @param string $amount
-     * @param string $currencyCode
-     * @param string $date
-     * @param string $type
-     * @param int $sequenceNumber
-     * @param Money $alreadyUsedThisWeek
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
@@ -86,9 +79,7 @@ abstract class Operation
 
     /**
      * Calculate commission
-     * Get amount based on operation and person type and then validate based on rules
-     *
-     * @return BigDecimal
+     * Get amount based on operation and person type and then validate based on rules.
      */
     public function getCommission(): BigDecimal
     {
@@ -107,9 +98,8 @@ abstract class Operation
     }
 
     /**
-     * Check if provided operation type exists in config
+     * Check if provided operation type exists in config.
      *
-     * @param string $type
      * @throws UnsupportedOperationTypeException
      */
     private function checkType(string $type)
@@ -119,68 +109,40 @@ abstract class Operation
         }
     }
 
-    /**
-     * @param BigDecimal $actualCommission
-     * @return BigDecimal
-     */
     abstract protected function validateCommission(BigDecimal $actualCommission): BigDecimal;
 
-    /**
-     * @return BigDecimal
-     */
     abstract protected function getAmountForCommission(): BigDecimal;
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return DateTime
-     */
     public function getDate(): DateTime
     {
         return $this->date;
     }
 
-    /**
-     * @return Person
-     */
     public function getPerson(): Person
     {
         return $this->person;
     }
 
-    /**
-     * @return BigDecimal
-     */
     public function getAmount(): BigDecimal
     {
         return $this->amount;
     }
 
-    /**
-     * @return Currency
-     */
     public function getCurrency(): Currency
     {
         return $this->currency;
     }
 
-    /**
-     * @return int
-     */
     public function getSequenceNumber(): int
     {
         return $this->sequenceNumber;
     }
 
-    /**
-     * @return Money
-     */
     public function getAlreadyUsedThisWeek(): Money
     {
         return $this->alreadyUsedThisWeek;

@@ -35,9 +35,8 @@ class OperationsHistory
     }
 
     /**
-     * Write operation to the history
+     * Write operation to the history.
      *
-     * @param Operation $operation
      * @return $this
      */
     public function push(Operation $operation): OperationsHistory
@@ -50,12 +49,8 @@ class OperationsHistory
 
     /**
      * Get amount that person already used during the week
-     * Get week from provided date, filter by operation type if needed
+     * Get week from provided date, filter by operation type if needed.
      *
-     * @param Person $person
-     * @param DateTime $date
-     * @param string|null $operationType
-     * @return Money
      * @throws CurrencyConversionException
      * @throws MoneyMismatchException
      * @throws UnknownCurrencyException
@@ -93,12 +88,7 @@ class OperationsHistory
 
     /**
      * Get operations count person already performed during the week
-     * Get week from provided date, filter by operation type if needed
-     *
-     * @param Person $person
-     * @param DateTime $date
-     * @param string|null $operationType
-     * @return int
+     * Get week from provided date, filter by operation type if needed.
      */
     public function getOperationsCountInWeekForPerson(Person $person, DateTime $date, string $operationType = null): int
     {
@@ -119,11 +109,7 @@ class OperationsHistory
     }
 
     /**
-     * Perform filter by operation type if needed in public methods
-     *
-     * @param array $operations
-     * @param string $operationType
-     * @return array
+     * Perform filter by operation type if needed in public methods.
      */
     private function filterWeekByOperationType(array $operations, string $operationType): array
     {
@@ -133,9 +119,8 @@ class OperationsHistory
     }
 
     /**
-     * Check if provided operation type exists in config
+     * Check if provided operation type exists in config.
      *
-     * @param string|null $operationType
      * @throws UnsupportedOperationTypeException
      */
     private function checkOperationType(string $operationType = null)
@@ -147,15 +132,10 @@ class OperationsHistory
         }
     }
 
-    /**
-     * @param DateTime $date
-     * @param int $personId
-     * @return string
-     */
     private function getWeekIdentifier(DateTime $date, int $personId): string
     {
         $dayOfWeek = $date->format('w');
-        $date->modify('- ' . (($dayOfWeek - 1 + 7) % 7) . 'days');
+        $date->modify('- '.(($dayOfWeek - 1 + 7) % 7).'days');
         $sunday = clone $date;
         $sunday->modify('+ 6 days');
 

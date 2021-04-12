@@ -8,8 +8,7 @@ use UnexpectedValueException;
 
 /**
  * Class UnsupportedOperationTypeException
- * Will be thrown if provided operation type is not listed in config
- * @package App\CommissionTask\Exception
+ * Will be thrown if provided operation type is not listed in config.
  */
 class UnsupportedOperationTypeException extends UnexpectedValueException
 {
@@ -18,7 +17,6 @@ class UnsupportedOperationTypeException extends UnexpectedValueException
 
     /**
      * UnsupportedOperationTypeException constructor.
-     * @param string $type
      */
     public function __construct(string $type)
     {

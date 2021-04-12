@@ -15,20 +15,13 @@ use Brick\Money\Money;
 use Exception;
 
 /**
- * Class CashInOperation
- * @package App\CommissionTask\Model
+ * Class CashInOperation.
  */
 class CashInOperation extends Operation
 {
     /**
      * CashInOperation constructor.
      *
-     * @param Person $person
-     * @param string $amount
-     * @param string $currencyCode
-     * @param int $sequenceNumber
-     * @param Money $alreadyUsedThisWeek
-     * @param string $date
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
@@ -55,10 +48,8 @@ class CashInOperation extends Operation
 
     /**
      * Validate calculated commission
-     * For operations with type cash_in compare with configured max amount and return lowest value
+     * For operations with type cash_in compare with configured max amount and return lowest value.
      *
-     * @param BigDecimal $actualCommission
-     * @return BigDecimal
      * @throws CurrencyConversionException
      * @throws UnknownCurrencyException
      */
@@ -78,9 +69,7 @@ class CashInOperation extends Operation
 
     /**
      * Get amount for commission calculations
-     * For operations with type cash_in equals to operation amount
-     *
-     * @return BigDecimal
+     * For operations with type cash_in equals to operation amount.
      */
     protected function getAmountForCommission(): BigDecimal
     {

@@ -2,6 +2,7 @@
 
 1. PHP 7.0
 2. Composer v1
+3. ```ext-bcmath```
 
 ### Installation
 

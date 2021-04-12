@@ -17,20 +17,13 @@ use Brick\Money\Money;
 use Exception;
 
 /**
- * Class CashOutOperation
- * @package App\CommissionTask\Model
+ * Class CashOutOperation.
  */
 class CashOutOperation extends Operation
 {
     /**
      * CashOutOperation constructor.
      *
-     * @param Person $person
-     * @param string $amount
-     * @param string $currencyCode
-     * @param int $sequenceNumber
-     * @param Money $alreadyUsedThisWeek
-     * @param string $date
      * @throws Exception
      * @throws UnsupportedOperationTypeException
      * @throws UnsupportedPersonTypeException
@@ -60,10 +53,8 @@ class CashOutOperation extends Operation
      * For operations with type cash_out there are two different flow based on person type
      * If person type is natural then return original calculated commission
      * If person type is legal then compare with configured min amount and return highest amount
-     * Throws exception if person type was not equal to configured values
+     * Throws exception if person type was not equal to configured values.
      *
-     * @param BigDecimal $actualCommission
-     * @return BigDecimal
      * @throws CurrencyConversionException
      * @throws UnknownCurrencyException
      * @throws UnsupportedPersonTypeException
@@ -99,9 +90,8 @@ class CashOutOperation extends Operation
      *  - return full amount if person already had three or more cash_out operations during the week
      *  - return full amount if person exceeded week discount 1000 EUR
      *  - return difference between operation amount and 1000 EUR if person had not exceeded week discount 1000 EUR
-     * Throws exception if person type was not equal to configured values
+     * Throws exception if person type was not equal to configured values.
      *
-     * @return BigDecimal
      * @throws CurrencyConversionException
      * @throws UnknownCurrencyException
      * @throws MoneyMismatchException
